@@ -175,11 +175,8 @@ export default function ProfilePage(): ReactElement {
                             </div>
                             <div className="mt-3 px-2 space-y-1">
                               {userNavigation.map((item) => (
-                                <Link href={item.href}
-                                    key={item.name}>
-                                  <a
-                                    className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800 z-10 bg-white"
-                                  >
+                                <Link href={item.href} key={item.name}>
+                                  <a className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800 z-10 bg-white">
                                     {item.name}
                                   </a>
                                 </Link>
@@ -256,7 +253,7 @@ export default function ProfilePage(): ReactElement {
         </div>
       </header>
 
-      <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none xl:order-last pb-24">
+      <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none xl:order-last pb-36">
         <article>
           {/* image */}
           <div>
@@ -338,45 +335,6 @@ export default function ProfilePage(): ReactElement {
             </div>
           </div>
 
-          {/* fields */}
-          <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-              {/* {Object.keys(profile.fields).map((field) => (
-                <div key={field} className="sm:col-span-1">
-                  <dt className="text-sm font-medium text-gray-500">{field}</dt>
-                  <dd className="mt-1 text-sm text-gray-900">
-                    {profile.fields[field]}
-                  </dd>
-                </div>
-              ))} */}
-              <div className="sm:col-span-2">
-                <dt className="text-sm font-medium text-gray-500">Bio</dt>
-                <dd
-                  className="mt-1 max-w-prose text-sm text-gray-900 space-y-5"
-                  dangerouslySetInnerHTML={{ __html: profile.bio }}
-                />
-              </div>
-            </dl>
-          </div>
-
-          <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <dt className="text-sm font-medium text-gray-500">Interests</dt>
-            <ul className=" mt-3">
-              {masterlist.map((l) => {
-                return (
-                  <li
-                    className="inline mr-2 cursor-pointer"
-                    key={' ' + Math.random() * 100}
-                  >
-                    <div className="relative inline-flex items-center rounded-full border border-gray-300 px-3 py-2 mb-3 bg-black shadow">
-                      <div className=" text-sm font-medium text-white">{l}</div>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
           <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
             <div className="space-y-12">
               <div className="space-y-5">
@@ -419,10 +377,44 @@ export default function ProfilePage(): ReactElement {
             </div>
           </div>
 
+          {/* bio */}
+          <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+              <div className="sm:col-span-2">
+                <dt className="text-sm font-medium text-gray-500">
+                  About {profile.name}
+                </dt>
+                <dd
+                  className="mt-1 max-w-prose text-sm text-gray-900 space-y-5"
+                  dangerouslySetInnerHTML={{ __html: profile.bio }}
+                />
+              </div>
+            </dl>
+          </div>
+
+          <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <dt className="text-sm font-medium text-gray-500">Interests</dt>
+            <ul className=" mt-3">
+              {masterlist.map((l) => {
+                return (
+                  <li
+                    className="inline mr-2 cursor-pointer"
+                    key={' ' + Math.random() * 100}
+                  >
+                    <div className="relative inline-flex items-center rounded-full border border-gray-300 px-3 py-2 mb-3 bg-black shadow">
+                      <div className=" text-sm font-medium text-white">{l}</div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
           {/* images */}
           <OtherApparel name={profile.name} />
         </article>
       </main>
+
       <div className="fixed inset-x-0 bottom-0">
         <div className="bg-black">
           <div className="max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
