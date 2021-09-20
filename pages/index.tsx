@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import OtherApparel from 'components/profile/OtherApparel';
 import { classNames } from 'utils/helpers';
 import Link from 'next/link';
+import Banner from 'components/Banner';
 
 export default function ProfilePage(): ReactElement {
   const router = useRouter();
@@ -346,6 +347,40 @@ export default function ProfilePage(): ReactElement {
             </div>
           </div>
 
+     {/* bio */}
+     <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+              <div className="sm:col-span-2">
+                <dt className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+                  About {profile.name}
+                </dt>
+                <dd
+                  className="mt-1 max-w-prose text-md text-gray-900 space-y-5"
+                  dangerouslySetInnerHTML={{ __html: profile.bio }}
+                />
+              </div>
+            </dl>
+          </div>
+
+          <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <dt className="text-3xl font-extrabold tracking-tight sm:text-4xl">Interests</dt>
+            <ul className=" mt-3">
+              {masterList.map((l) => {
+                return (
+                  <li
+                    className="inline mr-2 cursor-pointer"
+                    key={' ' + Math.random() * 100}
+                  >
+                    <div className="relative inline-flex items-center rounded-full border border-gray-300 px-3 py-2 mb-3 bg-black shadow">
+                      <div className=" text-sm font-medium text-white">{l}</div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+
           <div className="mx-auto py-4 mt-4 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
             <div className="space-y-6">
               <div className="space-y-5">
@@ -386,83 +421,12 @@ export default function ProfilePage(): ReactElement {
             </div>
           </div>
 
-          {/* bio */}
-          <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-              <div className="sm:col-span-2">
-                <dt className="text-3xl font-extrabold tracking-tight sm:text-4xl">
-                  About {profile.name}
-                </dt>
-                <dd
-                  className="mt-1 max-w-prose text-md text-gray-900 space-y-5"
-                  dangerouslySetInnerHTML={{ __html: profile.bio }}
-                />
-              </div>
-            </dl>
-          </div>
-
-          <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <dt className="text-3xl font-extrabold tracking-tight sm:text-4xl">Interests</dt>
-            <ul className=" mt-3">
-              {masterList.map((l) => {
-                return (
-                  <li
-                    className="inline mr-2 cursor-pointer"
-                    key={' ' + Math.random() * 100}
-                  >
-                    <div className="relative inline-flex items-center rounded-full border border-gray-300 px-3 py-2 mb-3 bg-black shadow">
-                      <div className=" text-sm font-medium text-white">{l}</div>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
+     
           {/* images */}
           <OtherApparel name={profile.name} />
         </article>
       </main>
-
-      <div className="fixed inset-x-0 bottom-0">
-        <div className="bg-black">
-          <div className="max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between flex-wrap">
-              <div className="w-0 flex-1 flex items-center">
-                <span className="flex p-2 rounded-lg bg-white">
-                  <SpeakerphoneIcon
-                    className="h-6 w-6 text-black"
-                    aria-hidden="true"
-                  />
-                </span>
-                <p className="ml-3 font-medium text-white">
-                  <span className=" flex-wrap">
-                    Sign in to receive $5 every time you scan a <i>Camels</i>{' '}
-                    apparel !
-                  </span>
-                </p>
-              </div>
-              <div className="order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
-                <a
-                  href="#"
-                  className="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-black bg-white hover:bg-gray-50"
-                >
-                  Learn more
-                </a>
-              </div>
-              <div className="order-2 flex-shrink-0 sm:order-3 sm:ml-3">
-                <button
-                  type="button"
-                  className="-mr-1 flex p-2 rounded-md hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2"
-                >
-                  <span className="sr-only">Dismiss</span>
-                  <XIcon className="h-6 w-6 text-white" aria-hidden="true" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Banner/>
     </div>
   );
 }
