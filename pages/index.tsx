@@ -22,39 +22,32 @@ export default function ProfilePage(): ReactElement {
   // if (!data) return <div>loading...</div>;
 
   // console.log(data);
-  const masterlist = [
+  const masterList = [
     '🎨 painting',
     '📸 photography',
-    '🎥 videography',
+    '🎥 drone videos',
     '🎙 podcasts',
     '📙 reading',
   ];
   const profile = {
     name: 'Moustafa Elhadary',
+    education: 'Penn State',
+    location: 'Miami, FL',
+
     imageUrl:
       'https://pbs.twimg.com/profile_images/1315750025125822466/7hLfs3Qy_400x400.jpg',
     coverImageUrl:
       'https://thumbs.dreamstime.com/b/giza-plateau-skyline-23265268.jpg',
     bio: 'Egyptian 🇪🇬. I love code, food and people equally.',
-    fields: {
-      Phone: '(555) 123-4567',
-      Email: 'ricardocooper@example.com',
-      Title: 'Senior Front-End Developer',
-      Team: 'Product Development',
-      Location: 'San Francisco',
-      Sits: 'Oasis, 4th floor',
-      Salary: '$145,000',
-      Birthday: 'June 8, 1990',
-    },
+    tikTok: 'moustafaElhadary',
+    instagram: 'theMoustafa',
+    twitter: 'theMoustafa_',
   };
 
   const apparel = {
     name: 'King Tut',
-    role: 'Front-end Developer',
     imageUrl:
       'https://footwearnews.com/wp-content/uploads/2021/09/GW3354_01_standard-1-e1631901814188.jpg?w=700&h=437&crop=1',
-    twitterUrl: '#',
-    linkedinUrl: '#',
   };
 
   const user = {
@@ -296,39 +289,57 @@ export default function ProfilePage(): ReactElement {
                 <nav className="-mb-px flex space-x-8" aria-label="Tabs">
                   <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-8  pb-6">
                     <div className="mt-2 flex items-center text-lg text-gray-500">
-                      🎓 Penn State
+                      🎓 {profile.education}
                     </div>
                     <div className="mt-2 flex items-center text-lg text-gray-500">
-                      📍 Miami, FL
+                      📍 {profile.location}
                     </div>
-                    <div className="mt-2 flex items-center text-lg text-gray-500">
-                      <img className="h-4 w-4 mr-2" src="/tiktok.svg" alt="" />
-                      <Link href="#">
-                        <a className="text-md font-semibold text-gray-700 hover:text-gray-900">
-                          moustafaelhadary
-                        </a>
-                      </Link>
-                    </div>
-                    <div className="mt-2 flex items-center text-lg text-gray-500">
-                      <img
-                        className="h-4 w-4 mr-2"
-                        src="/instagram.svg"
-                        alt=""
-                      />
-                      <Link href="#">
-                        <a className="text-md font-semibold text-gray-700 hover:text-gray-900">
-                          themoustafa
-                        </a>
-                      </Link>
-                    </div>
-                    <div className="mt-2 flex items-center text-lg text-gray-500">
-                      <img className="h-5 w-5 mr-1" src="/twitter.png" alt="" />
-                      <Link href="#">
-                        <a className="text-md font-semibold text-gray-700 hover:text-gray-900">
-                          themoustafa_
-                        </a>
-                      </Link>
-                    </div>
+                    {profile.tikTok && (
+                      <div className="mt-2 flex items-center text-lg text-gray-500">
+                        <img
+                          className="h-4 w-4 mr-2"
+                          src="/tiktok.svg"
+                          alt=""
+                        />
+                        <Link href={`https://tiktok.com/@${profile.tikTok}`}>
+                          <a className="text-md font-semibold text-gray-700 hover:text-gray-900">
+                            {profile.tikTok}
+                          </a>
+                        </Link>
+                      </div>
+                    )}
+
+                    {profile.instagram && (
+                      <div className="mt-2 flex items-center text-lg text-gray-500">
+                        <img
+                          className="h-4 w-4 mr-2"
+                          src="/instagram.svg"
+                          alt=""
+                        />
+                        <Link
+                          href={`https://instagram.com/${profile.instagram}`}
+                        >
+                          <a className="text-md font-semibold text-gray-700 hover:text-gray-900">
+                            {profile.instagram}
+                          </a>
+                        </Link>
+                      </div>
+                    )}
+
+                    {profile.twitter && (
+                      <div className="mt-2 flex items-center text-lg text-gray-500">
+                        <img
+                          className="h-4 w-4 mr-2"
+                          src="/twitter.png"
+                          alt=""
+                        />
+                        <Link href={`https://twitter.com/${profile.twitter}`}>
+                          <a className="text-md font-semibold text-gray-700 hover:text-gray-900">
+                            {profile.twitter}
+                          </a>
+                        </Link>
+                      </div>
+                    )}
                   </div>
                 </nav>
               </div>
@@ -393,7 +404,7 @@ export default function ProfilePage(): ReactElement {
           <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <dt className="text-sm font-medium text-gray-500">Interests</dt>
             <ul className=" mt-3">
-              {masterlist.map((l) => {
+              {masterList.map((l) => {
                 return (
                   <li
                     className="inline mr-2 cursor-pointer"
