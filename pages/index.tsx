@@ -335,8 +335,8 @@ export default function ProfilePage(): ReactElement {
             </div>
           </div>
 
-          <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
-            <div className="space-y-12">
+          <div className="mx-auto py-4 mt-4 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
+            <div className="space-y-6">
               <div className="space-y-5">
                 <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl text-center">
                   {apparel.name}
@@ -346,29 +346,27 @@ export default function ProfilePage(): ReactElement {
                 </h3>
               </div>
               <div className="space-y-12">
-                <div>
-                  <div className="space-y-4">
-                    <div className="aspect-w-3 aspect-h-2">
-                      <img
-                        className="object-cover shadow-lg rounded-lg mx-auto"
-                        src={apparel.imageUrl}
-                        alt=""
-                      />
-                    </div>
+                <div className="space-y-4">
+                  <div className="aspect-w-3 aspect-h-2">
+                    <img
+                      className="object-cover shadow-lg rounded-lg mx-auto"
+                      src={apparel.imageUrl}
+                      alt=""
+                    />
+                  </div>
 
-                    <div className="space-y-2">
-                      <div className="text-lg leading-6 font-medium space-y-1 w-full">
-                        <h3 className=" text-center">
-                          This shirt has been viewed 790 times
-                        </h3>
-                        <div className="align-middle justify-center mx-auto pl-36">
-                          <p className="text-gray-700 text-left md:text-center">
-                            #1 Miami, Fl
-                          </p>
-                          <p className="text-gray-700 text-left  md:text-center">
-                            #3 🌍
-                          </p>
-                        </div>
+                  <div className="space-y-2">
+                    <div className="text-lg leading-6 font-medium space-y-1 w-full">
+                      <h3 className=" text-center">
+                        This shirt has been viewed 790 times
+                      </h3>
+                      <div className="align-middle justify-center mx-auto pl-36">
+                        <p className="text-gray-700 text-left md:text-center">
+                          #1 Miami, Fl
+                        </p>
+                        <p className="text-gray-700 text-left  md:text-center">
+                          #3 🌍
+                        </p>
                       </div>
                     </div>
                   </div>
