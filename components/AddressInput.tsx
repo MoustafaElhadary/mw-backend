@@ -3,7 +3,6 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from 'use-places-autocomplete';
 import useOnclickOutside from 'react-cool-onclickoutside';
-import { Listbox, Transition } from '@headlessui/react';
 import { ReactElement } from 'react';
 
 const AddressInput = ({ setAddress, title, placeholder }): ReactElement => {

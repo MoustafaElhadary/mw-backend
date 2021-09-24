@@ -40,7 +40,7 @@ export default function Example() {
             <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:static">
               <div className="sm:max-w-lg">
                 <h1 className="text-4xl font font-bold tracking-tight text-gray-900 sm:text-6xl font-title">
-                  It&rsquo;s time for you to represent .... you
+                  It&rsquo;s time for you to represent .... YOU
                 </h1>
                 <p className="mt-4 text-xl text-gray-500">
                   This year, our new summer collection will shelter you from the

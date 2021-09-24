@@ -1,14 +1,11 @@
 import { Dialog, Transition } from '@headlessui/react';
-import {
-    ShoppingBagIcon, XIcon
-} from '@heroicons/react/outline';
+import { ShoppingBagIcon, XIcon } from '@heroicons/react/outline';
 import { Fragment, useState } from 'react';
 
 export default function Cart() {
-    const [cartOpen, setCartOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
 
-
-const products = [
+  const products = [
     {
       id: 1,
       name: 'Throwback Hip Bag',
@@ -36,24 +33,21 @@ const products = [
     // More products...
   ];
 
-    return (
-        <div>
-            <div
-                  className="ml-4 flow-root lg:ml-6"
-                  onClick={() => setCartOpen(true)}
-                >
-                  <a href="#" className="group -m-2 p-2 flex items-center">
-                    <ShoppingBagIcon
-                      className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
-                      aria-hidden="true"
-                    />
-                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      0
-                    </span>
-                    <span className="sr-only">items in cart, view bag</span>
-                  </a>
-                </div>
-            <Transition.Root show={cartOpen} as={Fragment}>
+  return (
+    <div>
+      <div className="ml-4 flow-root lg:ml-6" onClick={() => setCartOpen(true)}>
+        <a href="#" className="group -m-2 p-2 flex items-center">
+          <ShoppingBagIcon
+            className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
+            aria-hidden="true"
+          />
+          <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
+            0
+          </span>
+          <span className="sr-only">items in cart, view bag</span>
+        </a>
+      </div>
+      <Transition.Root show={cartOpen} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 overflow-hidden z-40"
@@ -190,8 +184,6 @@ const products = [
           </div>
         </Dialog>
       </Transition.Root>
-        </div>
-      
-     
-    )
+    </div>
+  );
 }

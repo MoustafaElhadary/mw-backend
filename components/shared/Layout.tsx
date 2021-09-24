@@ -1,7 +1,8 @@
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
+import Banner from 'components/Banner';
 import Cart from 'components/Cart';
-import { Fragment, ReactElement, useState } from 'react';
+import React, { Fragment, ReactElement, useState } from 'react';
 import { classNames } from 'utils/helpers';
 
 const navigation = {
@@ -137,7 +138,7 @@ const navigation = {
 export default function Layout({ children }): ReactElement {
   const [open, setOpen] = useState(false);
   return (
-    <div className="" style={{ backgroundColor: '#f7f5f0' }}>
+    <div style={{ backgroundColor: '#f7f5f0' }}>
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog
@@ -336,11 +337,7 @@ export default function Layout({ children }): ReactElement {
               <div className="ml-4 flex lg:ml-0">
                 <a href="#">
                   <span className="sr-only">Workflow</span>
-                  <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/workflow-mark.svg?color=black&shade=600"
-                    alt=""
-                  />
+                  <img className="h-16 w-auto" src="/camels.png" alt="" />
                 </a>
               </div>
 
@@ -503,9 +500,9 @@ export default function Layout({ children }): ReactElement {
             </div>
           </div>
         </nav>
-
       </header>
       {children}
+      <Banner />
     </div>
   );
 }
