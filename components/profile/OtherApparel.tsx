@@ -5,17 +5,17 @@ export default function OtherApparel({ name }): ReactElement {
   const apparelList = [
     {
       name: 'Donda',
-      imageUrl: '/gucci-1.jpg',
+      imageUrl: '/1-back.png',
       count: 703,
     },
     {
       name: 'GD',
-      imageUrl: '/gucci_2.webp',
+      imageUrl: '/1-back.png',
       count: 3201,
     },
     {
       name: 'Blue 🍎',
-      imageUrl: '/gucci-1.jpg',
+      imageUrl: '/1-front.png',
       count: 420,
     },
   ];
@@ -33,7 +33,7 @@ export default function OtherApparel({ name }): ReactElement {
               <div className="space-y-4">
                 <div className="aspect-w-3 aspect-h-2">
                   <img
-                    className="object-cover shadow-lg rounded-lg"
+                    className="object-cover shadow-lg rounded-lg w-96 h-96 relative"
                     src={apparel.imageUrl}
                     alt=""
                   />

@@ -1,18 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { ReactElement, useState, Fragment } from 'react';
 import { Menu, Popover, Transition } from '@headlessui/react';
 import {
-  BellIcon,
-  MenuIcon,
-  XIcon,
-  SpeakerphoneIcon,
+    BellIcon,
+    MenuIcon,
+    XIcon
 } from '@heroicons/react/outline';
-import useSWR from 'swr';
-import { useRouter } from 'next/router';
-import OtherApparel from 'components/profile/OtherApparel';
-import { classNames } from 'utils/helpers';
-import Link from 'next/link';
 import Banner from 'components/Banner';
+import OtherApparel from 'components/profile/OtherApparel';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { Fragment, ReactElement } from 'react';
+import { classNames } from 'utils/helpers';
 
 export default function ProfilePage(): ReactElement {
   const router = useRouter();
@@ -47,8 +45,7 @@ export default function ProfilePage(): ReactElement {
 
   const apparel = {
     name: 'King Tut',
-    imageUrl:
-      'https://footwearnews.com/wp-content/uploads/2021/09/GW3354_01_standard-1-e1631901814188.jpg?w=700&h=437&crop=1',
+    imageUrl: '/1-front.png',
   };
 
   const user = {
@@ -65,7 +62,7 @@ export default function ProfilePage(): ReactElement {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen" style={{backgroundColor:"#f7f5f0"}}>
       <header>
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
           <Popover className="flex justify-between h-16">

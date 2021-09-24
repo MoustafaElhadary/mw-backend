@@ -1,13 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { Fragment, ReactElement } from 'react';
 import { Menu, Popover, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
-import useSWR from 'swr';
-import { classNames } from 'utils/helpers';
-import { useRouter } from 'next/router';
 import Footer from 'components/shared/Footer';
-import SearchBox from './SearchBox';
 import Link from 'next/link';
+import React, { Fragment, ReactElement } from 'react';
+import { classNames } from 'utils/helpers';
+import SearchBox from './SearchBox';
 
 const user = {
   name: 'Whitney Francis',
@@ -24,7 +22,7 @@ const userNavigation = [
 
 export default function Layout({ children }): ReactElement {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen" style={{backgroundColor:"#f7f5f0"}}>
       <header>
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
           <Popover className="flex justify-between h-16">

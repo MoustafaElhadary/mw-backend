@@ -20,6 +20,7 @@ module.exports = {
       },
       fontFamily: {
         logo: ['Poppins'],
+        title: ['old-money']
       },
     },
   },

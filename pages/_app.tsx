@@ -1,9 +1,10 @@
-import React, { ReactElement } from 'react';
-import { SWRConfig } from 'swr';
+import axios from 'axios';
 // import { Provider } from 'next-auth/client';
 import { AppProps } from 'next/app';
-import axios from 'axios';
-import 'tailwindcss/tailwind.css';
+import React, { ReactElement } from 'react';
+import { SWRConfig } from 'swr';
+// import 'tailwindcss/tailwind.css';
+import '../styles/index.css';
 // import { UserProvider } from 'hooks/context/auth';
 
 function MyApp({ Component, pageProps }: AppProps): ReactElement {
