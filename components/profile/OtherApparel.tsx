@@ -20,10 +20,10 @@ export default function OtherApparel({ name }): ReactElement {
     },
   ];
   return (
-    <div className="mx-auto px-4 max-w-7xl py-12 sm:px-6 lg:px-8 lg:py-24">
+    <div className="mx-auto px-4 max-w-7xl py-6 sm:px-6 lg:px-8 lg:py-24">
       <div className="space-y-12">
         <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
-          <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl">
+          <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl text-center align-middle">
             Other merch {name} owns &#8594;
           </h2>
         </div>

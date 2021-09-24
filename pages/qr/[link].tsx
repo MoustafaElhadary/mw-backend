@@ -64,7 +64,7 @@ export default function ProfilePage(): ReactElement {
                 </div>
                 <div className="mt-6 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
                   <div className="sm:hidden 2xl:block mt-6 min-w-0 flex-1">
-                    <h1 className="text-xxl font-bold text-gray-900 truncate text-center sm:text-4xl">
+                    <h1 className="text-3xl font-extrabold text-gray-900 truncate text-center sm:text-4xl">
                       {profile.name}
                     </h1>
                   </div>
@@ -175,15 +175,12 @@ export default function ProfilePage(): ReactElement {
             </ul>
           </div> */}
 
-          <div className="mx-auto py-4 mt-4 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-">
+          <div className="mx-auto py-4 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-">
             <div className="space-y-6">
-              <div className="space-y-5">
-                <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl text-center">
-                  {apparel.name}
+              <div className="space-y-5 align-middle">
+                <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl text-center align-middle">
+                  {apparel.name} <span className="text-xl font-light tracking-tight sm:text-2xl text-center">(#7/3000)</span>
                 </h2>
-                <h3 className="text-xl font-light tracking-tight sm:text-2xl text-center -mt-8">
-                  (#7/3000)
-                </h3>
               </div>
               <div className="space-y-12">
                 <div className="space-y-4">

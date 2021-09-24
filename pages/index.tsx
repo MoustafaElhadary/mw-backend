@@ -206,7 +206,7 @@ export default function Example() {
               </p>
               <a
                 href="#"
-                className="mt-8 w-full block  border border-transparent rounded-md py-3 px-8 text-base font-medium text-gray-900 hover:bg-gray-100 sm:w-auto"
+                className="mt-8 w-full block  border border-transparent rounded-md py-3 px-8 text-base font-medium bg-white text-black hover:bg-gray-100 sm:w-auto"
               >
                 Read our story
               </a>
