@@ -1,36 +1,72 @@
+import { gql, useQuery } from '@apollo/client';
 import Layout from 'components/shared/Layout';
-const favorites = [
-  {
-    id: 1,
-    name: 'Black Basic Tee',
-    price: '$32',
-    href: '#',
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/home-page-03-favorite-01.jpg',
-    imageAlt: "Model wearing women's black cotton crewneck tee.",
-  },
-  {
-    id: 2,
-    name: 'Off-White Basic Tee',
-    price: '$32',
-    href: '#',
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/home-page-03-favorite-02.jpg',
-    imageAlt: "Model wearing women's off-white cotton crewneck tee.",
-  },
-  {
-    id: 3,
-    name: 'Mountains Artwork Tee',
-    price: '$36',
-    href: '#',
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/home-page-03-favorite-03.jpg',
-    imageAlt:
-      "Model wearing women's burgundy red crewneck artwork tee with small white triangle overlapping larger black triangle.",
-  },
-];
+import { GetProducts } from 'types/generated/GetProducts';
+const PRODUCTS = gql`
+  query GetProducts {
+    products(first: 100) {
+      edges {
+        node {
+          handle
+          id
+          title
+          availableForSale
+          compareAtPriceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+            maxVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          createdAt
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+            maxVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          descriptionHtml
+          images(first: 100) {
+            edges {
+              node {
+                transformedSrc
+                altText
+                id
+              }
+            }
+          }
+          totalInventory
+          variants(first: 100) {
+            edges {
+              node {
+                title
+                sku
+                quantityAvailable
+                availableForSale
+                id
+                selectedOptions {
+                  name
+                  value
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export default function HomePage() {
+  const { loading, error, data } = useQuery<GetProducts>(PRODUCTS);
 
-export default function Example() {
+  console.log({ loading, data, error });
+
   return (
     <Layout>
       <main>
@@ -127,6 +163,7 @@ export default function Example() {
             </div>
           </div>
         </section>
+
         {/* Favorites section */}
         <section aria-labelledby="favorites-heading">
           <div className="max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
@@ -146,24 +183,28 @@ export default function Example() {
             </div>
 
             <div className="mt-6 grid grid-cols-1 gap-y-10 sm:grid-cols-3 sm:gap-y-0 sm:gap-x-6 lg:gap-x-8">
-              {favorites.map((favorite) => (
-                <div key={favorite.id} className="group relative">
+              {data?.products?.edges.map(({ node: product }) => (
+                <div key={product.id} className="group relative">
                   <div className="w-full h-96 rounded-lg overflow-hidden group-hover:opacity-75 sm:h-auto sm:aspect-w-2 sm:aspect-h-3">
                     <img
-                      src={favorite.imageSrc}
-                      alt={favorite.imageAlt}
+                      src={product.images.edges[0].node.transformedSrc}
+                      alt={product.images.edges[0].node.altText}
                       className="w-full h-full object-center object-cover"
                     />
                   </div>
                   <h3 className="mt-4 text-base font-semibold text-gray-900">
-                    <a href={favorite.href}>
+                    <a href={product.handle}>
                       <span className="absolute inset-0" />
-                      {favorite.name}
+                      {product.title}
                     </a>
                   </h3>
-                  <p className="mt-1 text-sm text-gray-500">{favorite.price}</p>
+                  <p className="mt-1 text-sm text-gray-500">
+                    ${product.priceRange.minVariantPrice.amount}
+                  </p>
                 </div>
               ))}
+
+           
             </div>
 
             <div className="mt-6 sm:hidden">

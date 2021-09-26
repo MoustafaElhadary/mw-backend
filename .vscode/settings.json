@@ -2,11 +2,17 @@
     "cSpell.words": [
         "Elhadary",
         "Moustafa",
+        "algoliasearch",
+        "codegen",
+        "flowtype",
         "headlessui",
         "heroicons",
+        "instantsearch",
+        "nextjs",
         "onclickoutside",
         "printful",
         "reduxjs",
-        "semibold"
+        "semibold",
+        "tailwindcss"
     ]
 }

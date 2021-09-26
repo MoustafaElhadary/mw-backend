@@ -6,7 +6,7 @@ Scan your friends clothes and see where they stack
 <br /> <br/>
 ### Think Borat shout outs but better (*not sure how yet*)
 
-![alt text](readme/13.png)
+![alt text](public/13.png)
 
 
 ## Getting started
