@@ -2,7 +2,7 @@ const colors = require('tailwindcss/colors');
 
 module.exports = {
   mode: 'jit',
-  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}','./utils/**/*.{js,ts,jsx,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
@@ -17,6 +17,10 @@ module.exports = {
         orange: '#F15A24',
         navy: '#1B1464',
         'blue-gray': colors.blueGray,
+        yellow: colors.yellow,
+        green: colors.green,
+        red: colors.red,
+        blue: colors.blue,
       },
       fontFamily: {
         logo: ['Poppins'],

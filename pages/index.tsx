@@ -1,5 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
 import Layout from 'components/shared/Layout';
+import Link from 'next/link';
 import { GetProducts } from 'types/generated/GetProducts';
 const PRODUCTS = gql`
   query GetProducts {
@@ -193,18 +194,18 @@ export default function HomePage() {
                     />
                   </div>
                   <h3 className="mt-4 text-base font-semibold text-gray-900">
-                    <a href={product.handle}>
-                      <span className="absolute inset-0" />
-                      {product.title}
-                    </a>
+                    <Link href={`product/${product.handle}`}>
+                      <a>
+                        <span className="absolute inset-0" />
+                        {product.title}
+                      </a>
+                    </Link>
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">
                     ${product.priceRange.minVariantPrice.amount}
                   </p>
                 </div>
               ))}
-
-           
             </div>
 
             <div className="mt-6 sm:hidden">
