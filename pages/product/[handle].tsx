@@ -14,7 +14,7 @@ import {
   GetProduct_productByHandle_variants_edges_node_selectedOptions,
 } from 'types/generated/GetProduct';
 import { GetProducts } from 'types/generated/GetProducts';
-import { Colors, Rings } from 'utils/colors';
+import { Colors, Rings } from 'utils/Colors';
 import { classNames } from 'utils/helpers';
 import { PRODUCT, PRODUCTS } from 'utils/queries';
 
