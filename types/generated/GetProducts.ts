@@ -98,6 +98,14 @@ export interface GetProducts_products_edges_node_images_edges_node {
    * A unique identifier for the image.
    */
   id: string | null;
+  /**
+   * The original width of the image in pixels. Returns `null` if the image is not hosted by Shopify.
+   */
+  width: number | null;
+  /**
+   * The original height of the image in pixels. Returns `null` if the image is not hosted by Shopify.
+   */
+  height: number | null;
 }
 
 export interface GetProducts_products_edges_node_images_edges {

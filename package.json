@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "types:generate": "apollo codegen:generate --target typescript --excludes=node_modules/* --includes=**/*.tsx --endpoint https://graphql.myshopify.com/api/2021-07/graphql.json --header \"X-Shopify-Storefront-Access-Token: ecdc7f91ed0970e733268535c828fbbe\" --tagName=gql --outputFlat types/generated --passthroughCustomScalars --customScalarsPrefix Shopify",
+    "types:generate": "apollo codegen:generate --target typescript --excludes=node_modules/* --includes=**/*.{js,ts,jsx,tsx} --endpoint https://graphql.myshopify.com/api/2021-07/graphql.json --header \"X-Shopify-Storefront-Access-Token: ecdc7f91ed0970e733268535c828fbbe\" --tagName=gql --outputFlat types/generated --passthroughCustomScalars --customScalarsPrefix Shopify",
     "schema:download": "apollo schema:download --endpoint https://graphql.myshopify.com/api/2021-07/graphql.json --header \"X-Shopify-Storefront-Access-Token: ecdc7f91ed0970e733268535c828fbbe\"",
     "typescript:check": "tsc"
   },

@@ -2,6 +2,7 @@ import { Dialog, Popover, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import Banner from 'components/Banner';
 import Cart from 'components/Cart';
+import Link from 'next/link';
 import React, { Fragment, ReactElement, useState } from 'react';
 
 export default function Layout({ children }): ReactElement {
@@ -77,7 +78,6 @@ export default function Layout({ children }): ReactElement {
                     alt=""
                     className="h-14 w-auto block flex-shrink-0"
                   />
-                  
                 </a>
               </div>
             </div>
@@ -104,10 +104,12 @@ export default function Layout({ children }): ReactElement {
 
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
-                <a href="#">
-                  <span className="sr-only">Workflow</span>
-                  <img className="h-16 w-auto" src="/camels.png" alt="" />
-                </a>
+                <Link href="/">
+                  <a>
+                    <span className="sr-only">Workflow</span>
+                    <img className="h-16 w-auto" src="/camels.png" alt="" />
+                  </a>
+                </Link>
               </div>
 
               <div className="ml-auto flex items-center">

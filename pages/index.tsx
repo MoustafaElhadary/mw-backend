@@ -2,67 +2,8 @@ import { gql, useQuery } from '@apollo/client';
 import Layout from 'components/shared/Layout';
 import Link from 'next/link';
 import { GetProducts } from 'types/generated/GetProducts';
-const PRODUCTS = gql`
-  query GetProducts {
-    products(first: 100) {
-      edges {
-        node {
-          handle
-          id
-          title
-          availableForSale
-          compareAtPriceRange {
-            minVariantPrice {
-              amount
-              currencyCode
-            }
-            maxVariantPrice {
-              amount
-              currencyCode
-            }
-          }
-          createdAt
-          priceRange {
-            minVariantPrice {
-              amount
-              currencyCode
-            }
-            maxVariantPrice {
-              amount
-              currencyCode
-            }
-          }
-          descriptionHtml
-          images(first: 100) {
-            edges {
-              node {
-                transformedSrc
-                altText
-                id
-              }
-            }
-          }
-          totalInventory
-          variants(first: 100) {
-            edges {
-              node {
-                title
-                sku
-                quantityAvailable
-                availableForSale
-                id
-                selectedOptions {
-                  name
-                  value
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+import { PRODUCTS } from 'utils/queries';
+
 export default function HomePage() {
   const { loading, error, data } = useQuery<GetProducts>(PRODUCTS);
 

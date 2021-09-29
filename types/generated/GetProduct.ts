@@ -98,6 +98,14 @@ export interface GetProduct_productByHandle_images_edges_node {
    * A unique identifier for the image.
    */
   id: string | null;
+  /**
+   * The original width of the image in pixels. Returns `null` if the image is not hosted by Shopify.
+   */
+  width: number | null;
+  /**
+   * The original height of the image in pixels. Returns `null` if the image is not hosted by Shopify.
+   */
+  height: number | null;
 }
 
 export interface GetProduct_productByHandle_images_edges {
@@ -114,6 +122,42 @@ export interface GetProduct_productByHandle_images {
    * A list of edges.
    */
   edges: GetProduct_productByHandle_images_edges[];
+}
+
+export interface GetProduct_productByHandle_variants_edges_node_compareAtPriceV2 {
+  __typename: "MoneyV2";
+  /**
+   * Decimal money amount.
+   */
+  amount: ShopifyDecimal;
+  /**
+   * Currency of the money.
+   */
+  currencyCode: CurrencyCode;
+}
+
+export interface GetProduct_productByHandle_variants_edges_node_priceV2 {
+  __typename: "MoneyV2";
+  /**
+   * Decimal money amount.
+   */
+  amount: ShopifyDecimal;
+  /**
+   * Currency of the money.
+   */
+  currencyCode: CurrencyCode;
+}
+
+export interface GetProduct_productByHandle_variants_edges_node_unitPrice {
+  __typename: "MoneyV2";
+  /**
+   * Decimal money amount.
+   */
+  amount: ShopifyDecimal;
+  /**
+   * Currency of the money.
+   */
+  currencyCode: CurrencyCode;
 }
 
 export interface GetProduct_productByHandle_variants_edges_node_selectedOptions {
@@ -146,6 +190,18 @@ export interface GetProduct_productByHandle_variants_edges_node {
    * A globally-unique identifier.
    */
   id: string;
+  /**
+   * The compare at price of the variant. This can be used to mark a variant as on sale, when `compareAtPriceV2` is higher than `priceV2`.
+   */
+  compareAtPriceV2: GetProduct_productByHandle_variants_edges_node_compareAtPriceV2 | null;
+  /**
+   * The product variant’s price.
+   */
+  priceV2: GetProduct_productByHandle_variants_edges_node_priceV2;
+  /**
+   * The unit price value for the variant based on the variant's measurement.
+   */
+  unitPrice: GetProduct_productByHandle_variants_edges_node_unitPrice | null;
   /**
    * List of product options applied to the variant.
    */
@@ -207,6 +263,11 @@ export interface GetProduct_productByHandle {
    * List of images associated with the product.
    */
   images: GetProduct_productByHandle_images;
+  /**
+   * A comma separated list of tags that have been added to the product.
+   * Additional access scope required for private apps: unauthenticated_read_product_tags.
+   */
+  tags: string[];
   /**
    * List of the product’s variants.
    */
