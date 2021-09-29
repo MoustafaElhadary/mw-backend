@@ -504,12 +504,11 @@ export default function Product() {
                     objectFit="cover" // change to suit your needs
                     className="w-full h-full object-center object-cover lg:w-full lg:h-full  rounded-lg"
                   />
-          
                 </div>
                 <div className="mt-4 flex justify-between">
                   <div>
                     <h3 className="text-sm text-gray-700">
-                      <a href={`product/${relatedProduct.handle}`}>
+                      <a href={`/product/${relatedProduct.handle}`}>
                         <span aria-hidden="true" className="absolute inset-0" />
                         {relatedProduct.title}
                       </a>
@@ -518,19 +517,28 @@ export default function Product() {
                       role="list"
                       className="mt-auto pt-2 flex items-center justify-center space-x-3"
                     >
-                      {testProduct.availableColors.map((color) => (
-                        <li
-                          key={color.name}
-                          className="w-4 h-4 rounded-full border border-black border-opacity-10"
-                          style={{ backgroundColor: color.colorBg }}
-                        >
-                          <span className="sr-only">{color.name}</span>
-                        </li>
-                      ))}
+                      {_.uniq<GetProduct_productByHandle_variants_edges_node_selectedOptions>(
+                        [].concat.apply(
+                          [],
+                          relatedProduct.variants.edges.map(({ node }) =>
+                            node.selectedOptions.filter(
+                              (s) => s.name === 'Color'
+                            )
+                          )
+                        )
+                      )
+                        .map(({ value }) => value)
+                        .map((value) => (
+                          <li
+                            key={value}
+                            className={`w-4 h-4 rounded-full border border-black border-opacity-10 ${Colors[
+                              (value.toLowerCase() as keyof Colors) || 0
+                            ]}`}
+                          >
+                            <span className="sr-only">{value}</span>
+                          </li>
+                        ))}
                     </ul>
-                    {/* <p className="mt-1 text-sm text-gray-500">
-                      {relatedProduct.color}
-                    </p> */}
                   </div>
                   <p className="text-sm font-medium text-gray-900">
                     {relatedProduct.priceRange.minVariantPrice.amount}
