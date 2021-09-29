@@ -1,12 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { gql, useQuery } from '@apollo/client';
 import { RadioGroup } from '@headlessui/react';
 import _ from 'lodash';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
-    GetProduct,
-    GetProduct_productByHandle_variants_edges_node,
-    GetProduct_productByHandle_variants_edges_node_selectedOptions
+  GetProduct,
+  GetProduct_productByHandle_variants_edges_node,
+  GetProduct_productByHandle_variants_edges_node_selectedOptions,
 } from 'types/generated/GetProduct';
 import { Colors } from 'utils/Colors';
 import { classNames } from 'utils/helpers';
@@ -72,52 +73,93 @@ export default function Product() {
 
   const { handle } = router.query;
 
-  console.log({ handle });
   const { loading, error, data } = useQuery<GetProduct>(PRODUCT, {
     variables: { handle },
   });
-  const [option, setOption] =
-    useState<GetProduct_productByHandle_variants_edges_node | undefined>();
+  const [option, setOption] = useState<
+    GetProduct_productByHandle_variants_edges_node | undefined
+  >();
   const [selectedColor, setSelectedColor] = useState<string | undefined>();
   const [selectedSize, setSelectedSize] = useState<string | undefined>();
 
-  console.log({ loading, data, error });
+  const product = data?.productByHandle;
+  //black magic
+  //but essentially getting grouping the options to get a list of all the possible options
+  const grouped = _.groupBy(
+    _.uniq<GetProduct_productByHandle_variants_edges_node_selectedOptions>(
+      [].concat.apply(
+        [],
+        product?.variants.edges.map((p) => p.node.selectedOptions)
+      )
+    ),
+    'name'
+  );
+  const colors = grouped?.Color?.map((g) => {
+    return { value: g.value, available: true };
+  });
+  const [sizes, setSizes] = useState<
+    { value: string; available: Boolean }[] | undefined
+  >();
+
+  useMemo(() => {
+    const option = product?.variants.edges[0].node;
+    setOption(option);
+
+    setSizes(
+      grouped?.Size?.map((g) => {
+        return { value: g.value, available: false };
+      })
+    );
+
+    setSelectedColor(
+      option?.selectedOptions.find(({ name }) => name === 'Color').value
+    );
+    setSelectedSize(
+      option?.selectedOptions.find(({ name }) => name === 'Size').value
+    );
+  }, [data]);
 
   useEffect(() => {
-    setOption(data?.productByHandle.variants.edges[0].node);
-  }, []);
+    setOption(
+      product?.variants.edges.find(({ node }) => {
+        return (
+          node.selectedOptions
+            .map(({ value }) => value)
+            .includes(selectedSize) &&
+          node.selectedOptions
+            .map(({ value }) => value)
+            .includes(selectedColor) &&
+          node.availableForSale
+        );
+      })?.node
+    );
+  }, [product?.variants.edges, selectedColor, selectedSize]);
+
+  useEffect(() => {
+    setSizes(
+      sizes?.map((s) => {
+        const isAvailable =
+          product?.variants.edges.filter(
+            ({ node }) =>
+              node.selectedOptions.find(({ name }) => name === 'Size').value ===
+                s.value &&
+              node.selectedOptions
+                .map(({ value }) => value)
+                .includes(selectedColor) &&
+              node.availableForSale
+          ).length > 0;
+
+        return { ...s, available: isAvailable };
+      })
+    );
+  }, [selectedColor]);
+
   if (loading) return <> Loading.... </>;
 
   if (error) return <> error.... </>;
 
   if (!data) return <> no data.... </>;
 
-  const product = data.productByHandle;
-
-
-  let options: string[] = [];
-  options = _.uniq(
-    options.concat.apply(
-      [],
-      product.variants.edges.map((p) =>
-        p.node.selectedOptions.map((o) => o.name)
-      )
-    )
-  );
-
-  let attrs: GetProduct_productByHandle_variants_edges_node_selectedOptions[] = [];
-  attrs = _.uniq(
-    attrs.concat.apply(
-      [],
-      product.variants.edges.map((p) => p.node.selectedOptions)
-    )
-  );
-
-  const grouped = _.groupBy(attrs, 'name');
-  const colors =grouped.Color.map((g)=> g.value);
-  const sizes =grouped.Size.map((g)=>g.value);
-
-  console.log({ product, options, grouped, attrs, option,colors,sizes });
   return (
     <div>
       <form>
@@ -134,26 +176,30 @@ export default function Product() {
               Choose a color
             </RadioGroup.Label>
             <div className="flex items-center space-x-3">
-              {colors.map((color) => (
+              {colors?.map(({ value, available }) => (
                 <RadioGroup.Option
-                  key={color}
-                  value={color}
+                  key={value}
+                  value={value}
                   className={({ active, checked }) =>
                     classNames(
                       'ring-gray-900',
+                      available
+                        ? 'cursor-pointer focus:outline-none'
+                        : 'opacity-25 cursor-not-allowed',
                       active && checked ? 'ring ring-offset-1' : '',
                       !active && checked ? 'ring-2' : '',
                       '-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none'
                     )
                   }
+                  disabled={!available}
                 >
                   <RadioGroup.Label as="p" className="sr-only">
-                    {color}
+                    {value}
                   </RadioGroup.Label>
                   <span
                     aria-hidden="true"
                     className={classNames(
-                        Colors[color as keyof Colors || 0] ,
+                      Colors[(value.toLowerCase() as keyof Colors) || 0],
                       'h-8 w-8 border border-black border-opacity-10 rounded-full'
                     )}
                   />
@@ -184,25 +230,25 @@ export default function Product() {
               Choose a size
             </RadioGroup.Label>
             <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
-              {sizes.map((size) => (
+              {sizes?.map(({ value, available }) => (
                 <RadioGroup.Option
-                  key={size}
-                  value={size}
+                  key={value}
+                  value={value}
                   className={({ active, checked }) =>
                     classNames(
-                    //   size.inStock
-                    //     ? 'cursor-pointer focus:outline-none'
-                    //     : 'opacity-25 cursor-not-allowed',
-                    //   active ? 'ring-2 ring-offset-2 ring-black' : '',
+                      available
+                        ? 'cursor-pointer focus:outline-none'
+                        : 'opacity-25 cursor-not-allowed',
+                      active ? 'ring-2 ring-offset-2 ring-black' : '',
                       checked
                         ? 'bg-black border-transparent text-white hover:bg-black'
                         : 'bg-white border-gray-200 text-gray-900 hover:bg-gray-50',
                       'border rounded-md py-3 px-3 flex items-center justify-center text-sm font-medium uppercase sm:flex-1'
                     )
                   }
-                //   disabled={!size.inStock}
+                  disabled={!available}
                 >
-                  <RadioGroup.Label as="p">{size}</RadioGroup.Label>
+                  <RadioGroup.Label as="p">{value}</RadioGroup.Label>
                 </RadioGroup.Option>
               ))}
             </div>
@@ -211,18 +257,17 @@ export default function Product() {
 
         <button
           type="submit"
-          className="mt-8 w-full bg-black border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+          className={classNames(
+            'mt-8 w-full bg-black border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black',
+            option ? 'cursor-pointer ' : 'opacity-25 cursor-not-allowed'
+          )}
+          disabled={
+            option === undefined || option === null || !option.availableForSale
+          }
         >
           Add to cart
         </button>
       </form>
-      {options.map((o) => (
-        <li key={o}>
-          {o}
-          <br />
-        </li>
-      ))}
-      {JSON.stringify(option)}
     </div>
   );
 }
