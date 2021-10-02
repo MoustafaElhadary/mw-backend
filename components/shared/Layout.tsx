@@ -9,8 +9,6 @@ import { useAppSelector } from 'redux/store';
 export default function Layout({ children }): ReactElement {
   const [open, setOpen] = useState(false);
   const session = useAppSelector((state) => state.auth.session);
-
-  console.log({session})
   return (
     <div style={{ backgroundColor: '#f7f5f0' }}>
       <NextSeo

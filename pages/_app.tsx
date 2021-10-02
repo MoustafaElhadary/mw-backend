@@ -50,8 +50,6 @@ function AppWrapper({
 
     supabase.auth.onAuthStateChange((_event, session) => {
       dispatch(setSession(session));
-      console.log('hello world');
-      console.log({ session });
     });
   }, []);
   return (

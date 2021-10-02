@@ -21,6 +21,7 @@ module.exports = {
         green: colors.green,
         red: colors.red,
         blue: colors.blue,
+        sky: colors.sky,
       },
       fontFamily: {
         logo: ['Poppins'],
