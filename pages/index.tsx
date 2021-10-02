@@ -117,14 +117,14 @@ export default function HomePage() {
                 id="favorites-heading"
                 className="text-2xl font-extrabold tracking-tight text-gray-900"
               >
-                Our Favorites
+                Our Collection
               </h2>
-              <a
+              {/* <a
                 href="#"
                 className="hidden text-sm font-semibold text-black hover:text-black sm:block"
               >
                 Browse all favorites<span aria-hidden="true"> &rarr;</span>
-              </a>
+              </a> */}
             </div>
 
             <div className="mt-6 grid grid-cols-1 gap-y-10 sm:grid-cols-3 sm:gap-y-0 sm:gap-x-6 lg:gap-x-8">
@@ -146,7 +146,7 @@ export default function HomePage() {
                       className="h-full rounded-2xl"
                     />
                   </div>
-                  
+
                   <h3 className="mt-4 text-base font-semibold text-gray-900">
                     <Link href={`product/${product.handle}`}>
                       <a>
@@ -159,33 +159,29 @@ export default function HomePage() {
                     ${product.priceRange.minVariantPrice.amount}
                   </p>
                   <ul
-                        role="list"
-                        className="mt-auto pt-2 flex items-center space-x-3"
-                      >
-                        {_.uniq<GetProduct_productByHandle_variants_edges_node_selectedOptions>(
-                          [].concat.apply(
-                            [],
-                            product.variants.edges.map(({ node }) =>
-                              node.selectedOptions.filter(
-                                (s) => s.name === 'Color'
-                              )
-                            )
-                          )
+                    role="list"
+                    className="mt-auto pt-2 flex items-center space-x-3"
+                  >
+                    {_.uniq<GetProduct_productByHandle_variants_edges_node_selectedOptions>(
+                      [].concat.apply(
+                        [],
+                        product.variants.edges.map(({ node }) =>
+                          node.selectedOptions.filter((s) => s.name === 'Color')
                         )
-                          .map(({ value }) => value)
-                          .map((value) => (
-                            <li
-                              key={value}
-                              className={`w-4 h-4 rounded-full border border-black border-opacity-10 ${
-                                Colors[
-                                  (value.toLowerCase() as keyof Colors) || 0
-                                ]
-                              }`}
-                            >
-                              <span className="sr-only">{value}</span>
-                            </li>
-                          ))}
-                      </ul>
+                      )
+                    )
+                      .map(({ value }) => value)
+                      .map((value) => (
+                        <li
+                          key={value}
+                          className={`w-4 h-4 rounded-full border border-black border-opacity-10 ${
+                            Colors[(value.toLowerCase() as keyof Colors) || 0]
+                          }`}
+                        >
+                          <span className="sr-only">{value}</span>
+                        </li>
+                      ))}
+                  </ul>
                 </div>
               ))}
             </div>
@@ -196,43 +192,6 @@ export default function HomePage() {
                 className="block text-sm font-semibold text-black hover:text-black"
               >
                 Browse all favorites<span aria-hidden="true"> &rarr;</span>
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* Featured section */}
-        <section aria-labelledby="cause-heading">
-          <div className="relative bg-gray-800 py-32 px-6 sm:py-40 sm:px-12 lg:px-16">
-            <div className="absolute inset-0 overflow-hidden">
-              <img
-                src="https://tailwindui.com/img/ecommerce-images/home-page-03-feature-section-full-width.jpg"
-                alt=""
-                className="w-full h-80 object-center object-cover"
-              />
-            </div>
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 bg-gray-900 bg-opacity-50"
-            />
-            <div className="relative max-w-3xl mx-auto flex flex-col items-center text-center">
-              <h2
-                id="cause-heading"
-                className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl"
-              >
-                Long-term thinking
-              </h2>
-              <p className="mt-3 text-xl text-white">
-                We&rsquo;re committed to responsible, sustainable, and ethical
-                manufacturing. Our small-scale approach allows us to focus on
-                quality and reduce our impact. We&rsquo;re doing our best to
-                delay the inevitable heat-death of the universe.
-              </p>
-              <a
-                href="#"
-                className="mt-8 w-full block  border border-transparent rounded-md py-3 px-8 text-base font-medium bg-white text-black hover:bg-gray-100 sm:w-auto"
-              >
-                Read our story
               </a>
             </div>
           </div>

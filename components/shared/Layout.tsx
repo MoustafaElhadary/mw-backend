@@ -1,10 +1,10 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import Cart from 'components/Cart';
+import { NextSeo } from 'next-seo';
 import Link from 'next/link';
 import React, { Fragment, ReactElement, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState, useAppSelector } from 'redux/store';
+import { useAppSelector } from 'redux/store';
 
 export default function Layout({ children }): ReactElement {
   const [open, setOpen] = useState(false);
@@ -13,6 +13,10 @@ export default function Layout({ children }): ReactElement {
   console.log({session})
   return (
     <div style={{ backgroundColor: '#f7f5f0' }}>
+      <NextSeo
+      title="Camels Apparel"
+      description="It’s time for you to represent .... YOU"
+    />
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog
