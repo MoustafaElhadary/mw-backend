@@ -10,6 +10,7 @@
         "codegen",
         "flowtype",
         "formik",
+        "gotrue",
         "headlessui",
         "heroicons",
         "instantsearch",

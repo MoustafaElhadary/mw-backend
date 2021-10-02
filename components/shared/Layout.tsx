@@ -1,12 +1,16 @@
-import { Dialog, Popover, Transition } from '@headlessui/react';
+import { Dialog, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
-import Banner from 'components/Banner';
 import Cart from 'components/Cart';
 import Link from 'next/link';
 import React, { Fragment, ReactElement, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState, useAppSelector } from 'redux/store';
 
 export default function Layout({ children }): ReactElement {
   const [open, setOpen] = useState(false);
+  const session = useAppSelector((state) => state.auth.session);
+
+  console.log({session})
   return (
     <div style={{ backgroundColor: '#f7f5f0' }}>
       {/* Mobile menu */}
@@ -137,7 +141,7 @@ export default function Layout({ children }): ReactElement {
         </nav>
       </header>
       {children}
-      <Banner />
+      {/* <Banner /> */}
     </div>
   );
 }

@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import tabReducer from './tabSlice';
 import userReducer from './userSlice';
+import authReducer from './authSlice';
 const store = configureStore({
   reducer: {
     store: tabReducer,
     user: userReducer,
+    auth: authReducer
   },
 });
 
@@ -15,3 +17,5 @@ export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>(); // Export a hook that can be reused to resolve types
+
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
