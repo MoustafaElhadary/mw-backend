@@ -37,12 +37,14 @@ Scan your friends clothes and see where they stack
 ## Todo
 
 - [ ] Login
-- [ ] Log out
+- [x] Log out
 - [ ] Create Profile (name,bio,image, socials)
-- [ ] Home page (show products)
+- [x] Home page (show products)
 - [ ] Personal (logged in only) show past purchases
 - [ ] checkout flow (add products to cart, add user id)
 - [ ] webhook
 - [ ] generate QR code (create products on the fly?, integrate with printful)
 - [ ] Counter for unique visits ( check location by ip address)
 - [ ] edit personal page
+- [x] product page
+- [ ] scanned page
