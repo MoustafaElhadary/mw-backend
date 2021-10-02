@@ -13,7 +13,6 @@ export default function ProfilePage(): ReactElement {
   // if (error) return <div>failed to load</div>;
   // if (!data) return <div>loading...</div>;
 
-  // console.log(data);
   const masterList = [
     '🎨 painting',
     '📸 photography',

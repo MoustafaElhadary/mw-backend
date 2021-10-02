@@ -1,13 +1,16 @@
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import Layout from 'components/shared/Layout';
+import _ from 'lodash';
+import Image from 'next/image';
 import Link from 'next/link';
+import { GetProduct_productByHandle_variants_edges_node_selectedOptions } from 'types/generated/GetProduct';
 import { GetProducts } from 'types/generated/GetProducts';
+import { Colors } from 'utils/Colors';
+import { classNames } from 'utils/helpers';
 import { PRODUCTS } from 'utils/queries';
 
 export default function HomePage() {
   const { loading, error, data } = useQuery<GetProducts>(PRODUCTS);
-
-  console.log({ loading, data, error });
 
   return (
     <Layout>
@@ -127,13 +130,23 @@ export default function HomePage() {
             <div className="mt-6 grid grid-cols-1 gap-y-10 sm:grid-cols-3 sm:gap-y-0 sm:gap-x-6 lg:gap-x-8">
               {data?.products?.edges.map(({ node: product }) => (
                 <div key={product.id} className="group relative">
-                  <div className="w-full h-96 rounded-lg overflow-hidden group-hover:opacity-75 sm:h-auto sm:aspect-w-2 sm:aspect-h-3">
-                    <img
+                  <div
+                    key={product.images.edges[0].node.id}
+                    className={classNames(
+                      'relative',
+                      'lg:col-span-2 lg:row-span-2 h-96',
+                      'rounded-2xl'
+                    )}
+                  >
+                    <Image
                       src={product.images.edges[0].node.transformedSrc}
                       alt={product.images.edges[0].node.altText}
-                      className="w-full h-full object-center object-cover"
+                      layout="fill" // required
+                      objectFit="cover" // change to suit your needs
+                      className="h-full rounded-2xl"
                     />
                   </div>
+                  
                   <h3 className="mt-4 text-base font-semibold text-gray-900">
                     <Link href={`product/${product.handle}`}>
                       <a>
@@ -145,6 +158,34 @@ export default function HomePage() {
                   <p className="mt-1 text-sm text-gray-500">
                     ${product.priceRange.minVariantPrice.amount}
                   </p>
+                  <ul
+                        role="list"
+                        className="mt-auto pt-2 flex items-center space-x-3"
+                      >
+                        {_.uniq<GetProduct_productByHandle_variants_edges_node_selectedOptions>(
+                          [].concat.apply(
+                            [],
+                            product.variants.edges.map(({ node }) =>
+                              node.selectedOptions.filter(
+                                (s) => s.name === 'Color'
+                              )
+                            )
+                          )
+                        )
+                          .map(({ value }) => value)
+                          .map((value) => (
+                            <li
+                              key={value}
+                              className={`w-4 h-4 rounded-full border border-black border-opacity-10 ${
+                                Colors[
+                                  (value.toLowerCase() as keyof Colors) || 0
+                                ]
+                              }`}
+                            >
+                              <span className="sr-only">{value}</span>
+                            </li>
+                          ))}
+                      </ul>
                 </div>
               ))}
             </div>
@@ -167,7 +208,7 @@ export default function HomePage() {
               <img
                 src="https://tailwindui.com/img/ecommerce-images/home-page-03-feature-section-full-width.jpg"
                 alt=""
-                className="w-full h-full object-center object-cover"
+                className="w-full h-80 object-center object-cover"
               />
             </div>
             <div

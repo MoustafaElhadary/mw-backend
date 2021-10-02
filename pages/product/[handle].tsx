@@ -11,7 +11,7 @@ import { Fragment, useEffect, useMemo, useState } from 'react';
 import {
   GetProduct,
   GetProduct_productByHandle_variants_edges_node,
-  GetProduct_productByHandle_variants_edges_node_selectedOptions,
+  GetProduct_productByHandle_variants_edges_node_selectedOptions
 } from 'types/generated/GetProduct';
 import { GetProducts } from 'types/generated/GetProducts';
 import { Colors, Rings } from 'utils/Colors';
@@ -167,7 +167,6 @@ export default function Product() {
     );
   }, [selectedColor]);
 
-  console.log({ dataProducts });
 
   const recommendedProducts = dataProducts?.products?.edges.filter(
     ({ node: rp }) => rp.id !== product?.id
@@ -175,7 +174,7 @@ export default function Product() {
   return (
     <Layout>
       <>
-        <main className="my-8 max-w-2xl mx-auto pb-16 px-4 sm:pb-24 sm:px-6 lg:max-w-7xl lg:px-8">
+        <main className="max-w-2xl mx-auto px-4 pb-48 sm:px-6 lg:max-w-7xl lg:px-8">
           <div className="lg:grid lg:grid-cols-12 lg:auto-rows-min lg:gap-x-8">
             <div className="lg:col-start-8 lg:col-span-5">
               <div className="flex justify-between">
@@ -500,7 +499,7 @@ export default function Product() {
             <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
               {recommendedProducts?.map(({ node: relatedProduct }) => (
                 <div key={relatedProduct.id} className="group relative">
-                  <div className="relative w-full min-h-80 aspect-w-1 aspect-h-1 rounded-lg overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
+                  <div className="relative w-full min-h-80 aspect-w-1 aspect-h-1 rounded-lg overflow-hidden group-hover:opacity-75 h-80 aspect-none">
                     <Image
                       src={relatedProduct.images.edges[0].node.transformedSrc}
                       alt={relatedProduct.images.edges[0].node.altText}
