@@ -5,14 +5,19 @@
         "algoliasearch",
         "codegen",
         "flowtype",
+        "formik",
         "headlessui",
         "heroicons",
         "instantsearch",
         "nextjs",
+        "noreply",
         "onclickoutside",
+        "openapi",
         "printful",
         "reduxjs",
         "semibold",
-        "tailwindcss"
+        "supabase",
+        "tailwindcss",
+        "upsert"
     ]
 }
