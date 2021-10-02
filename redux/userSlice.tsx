@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const profileSlice = createSlice({
-  name: 'profile',
+export const userSlice = createSlice({
+  name: 'user',
   initialState: {
     selectedTab: '',
   },
@@ -12,6 +12,6 @@ export const profileSlice = createSlice({
   },
 });
 
-export const { setSelectedTab } = profileSlice.actions;
+export const { setSelectedTab } = userSlice.actions;
 
-export default profileSlice.reducer;
+export default userSlice.reducer;

@@ -33,7 +33,7 @@ export default function OtherApparel({ name }): ReactElement {
               <div className="space-y-4">
                 <div className="aspect-w-3 aspect-h-2">
                   <img
-                    className="object-cover shadow-lg rounded-lg w-96 h-96 relative"
+                    className="object-cover shadow-lg rounded-lg w-96 h-96 relative mx-auto"
                     src={apparel.imageUrl}
                     alt=""
                   />

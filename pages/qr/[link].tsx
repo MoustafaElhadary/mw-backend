@@ -45,15 +45,8 @@ export default function ProfilePage(): ReactElement {
         <article>
           {/* image */}
           <div>
-            <div>
-              <img
-                className="h-32 w-full max-w-7xl mx-auto object-cover lg:rounded-3xl sm:h-80"
-                src={profile.coverImageUrl}
-                alt=""
-              />
-            </div>
             <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5 mx-auto">
+              <div className="mt-8  mx-auto">
                 <div className="flex justify-center align-middle">
                   <img
                     className="h-32 w-32 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
@@ -62,27 +55,22 @@ export default function ProfilePage(): ReactElement {
                   />
                 </div>
                 <div className="mt-6 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
-                  <div className="sm:hidden 2xl:block mt-6 min-w-0 flex-1">
+                  <div className=" 2xl:block mt-6 min-w-0 flex-1">
                     <h1 className="text-3xl font-extrabold text-gray-900 truncate text-center sm:text-4xl">
                       {profile.name}
                     </h1>
                   </div>
                 </div>
               </div>
-              <div className="hidden sm:block 2xl:hidden mt-6 min-w-0 flex-1">
-                <h1 className="text-3xl font-bold text-gray-900 truncate sm:text-4xl">
-                  {profile.name}
-                </h1>
-              </div>
             </div>
           </div>
 
           {/* header  info */}
           <div className="sm:mt-2 2xl:mt-5">
-            <div className="border-b border-gray-200">
+            <div className="border-b border-gray-200  pb-6">
               <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <nav className="-mb-px flex space-x-8" aria-label="Tabs">
-                  <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-8  pb-6">
+                  <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-8 sm:mx-auto">
                     <div className="mt-2 flex items-center text-lg text-gray-500">
                       🎓 {profile.education} {'   '}|{'   '}📍{' '}
                       {profile.location}
@@ -136,23 +124,20 @@ export default function ProfilePage(): ReactElement {
                   </div>
                 </nav>
               </div>
+              <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                  <div className="sm:col-span-2">
+                    <dd
+                      className="mt-1 ext-md text-gray-900 space-y-5 text-center align-middle"
+                      dangerouslySetInnerHTML={{ __html: profile.bio }}
+                    />
+                  </div>
+                </dl>
+              </div>
             </div>
           </div>
 
           {/* bio */}
-          <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-              <div className="sm:col-span-2">
-                <dt className="text-2xl font-semibold tracking-tight sm:text-4xl text-center">
-                  About
-                </dt>
-                <dd
-                  className="mt-1 ext-md text-gray-900 space-y-5 text-center align-middle"
-                  dangerouslySetInnerHTML={{ __html: profile.bio }}
-                />
-              </div>
-            </dl>
-          </div>
 
           {/* <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <dt className="text-2xl font-semibold tracking-tight sm:text-4xl">
@@ -178,7 +163,10 @@ export default function ProfilePage(): ReactElement {
             <div className="space-y-6">
               <div className="space-y-5 align-middle">
                 <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl text-center align-middle">
-                  {apparel.name} <span className="text-xl font-light tracking-tight sm:text-2xl text-center">(#7/3000)</span>
+                  {apparel.name}{' '}
+                  <span className="text-xl font-light tracking-tight sm:text-2xl text-center">
+                    (#7/3000)
+                  </span>
                 </h2>
               </div>
               <div className="space-y-12">
