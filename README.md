@@ -40,11 +40,11 @@ Scan your friends clothes and see where they stack
 - [x] Log out
 - [ ] Create Profile (name,bio,image, socials)
 - [x] Home page (show products)
-- [ ] Personal (logged in only) show past purchases
+- [x] Personal (logged in only) show past purchases
 - [ ] checkout flow (add products to cart, add user id)
 - [ ] webhook
 - [ ] generate QR code (create products on the fly?, integrate with printful)
 - [ ] Counter for unique visits ( check location by ip address)
-- [ ] edit personal page
+- [x] edit personal page
 - [x] product page
 - [ ] scanned page
