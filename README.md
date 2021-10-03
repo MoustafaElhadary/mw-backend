@@ -1,3 +1,14 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Gamfied Apparel](#gamfied-apparel)
+    - [Think Borat shout outs but better (*not sure how yet*)](#think-borat-shout-outs-but-better-not-sure-how-yet)
+  - [Getting started](#getting-started)
+  - [Todo](#todo)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ![alt text](public/camels.png)
 
 # Gamfied Apparel
