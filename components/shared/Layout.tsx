@@ -12,9 +12,9 @@ export default function Layout({ children }): ReactElement {
   return (
     <div style={{ backgroundColor: '#f7f5f0' }}>
       <NextSeo
-      title="Camels Apparel"
-      description="It’s time for you to represent .... YOU"
-    />
+        title="Camels Apparel"
+        description="It’s time for you to represent .... YOU"
+      />
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog

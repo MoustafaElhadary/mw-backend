@@ -28,7 +28,7 @@ export default function Auth() {
       if (error) throw error;
       alert('Check your phone for pass code');
       setPhoneSubmitted(true);
-      console.log({error,phone})
+      console.log({ error, phone });
     } catch (error) {
       alert(error.error_description || error.message);
     } finally {
@@ -97,7 +97,6 @@ export default function Auth() {
               onChange={(e) => setPhone(e.target.value)}
             />
           )}
-       
         </div>
         <div>
           {phoneSubmitted ? (

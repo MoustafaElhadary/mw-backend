@@ -9,7 +9,6 @@ export default function Avatar({ url, size, onUpload }) {
   const [username, setUsername] = useState(null);
   const [website, setWebsite] = useState(null);
 
-
   async function updateProfile({ username, website, avatar_url }) {
     try {
       setLoading(true);

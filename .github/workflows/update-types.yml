@@ -1,4 +1,4 @@
-name: Update database types
+name: Update db types
 
 on:
   schedule:
@@ -27,7 +27,7 @@ jobs:
           git add types/supabase.ts
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git commit -m "Update database types" -a
+          git commit -m "Update db types" -a
       - name: Push changes
         if: ${{contains(steps.git_status.outputs.status, ' ')}}
         uses: ad-m/github-push-action@master
