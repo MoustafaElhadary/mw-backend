@@ -21,6 +21,15 @@ export interface paths {
           username?: parameters["rowFilter.profiles.username"];
           avatar_url?: parameters["rowFilter.profiles.avatar_url"];
           website?: parameters["rowFilter.profiles.website"];
+          bio?: parameters["rowFilter.profiles.bio"];
+          tiktok?: parameters["rowFilter.profiles.tiktok"];
+          instagram?: parameters["rowFilter.profiles.instagram"];
+          twitter?: parameters["rowFilter.profiles.twitter"];
+          education?: parameters["rowFilter.profiles.education"];
+          location?: parameters["rowFilter.profiles.location"];
+          firstName?: parameters["rowFilter.profiles.firstName"];
+          lastName?: parameters["rowFilter.profiles.lastName"];
+          phoneNumber?: parameters["rowFilter.profiles.phoneNumber"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -76,6 +85,15 @@ export interface paths {
           username?: parameters["rowFilter.profiles.username"];
           avatar_url?: parameters["rowFilter.profiles.avatar_url"];
           website?: parameters["rowFilter.profiles.website"];
+          bio?: parameters["rowFilter.profiles.bio"];
+          tiktok?: parameters["rowFilter.profiles.tiktok"];
+          instagram?: parameters["rowFilter.profiles.instagram"];
+          twitter?: parameters["rowFilter.profiles.twitter"];
+          education?: parameters["rowFilter.profiles.education"];
+          location?: parameters["rowFilter.profiles.location"];
+          firstName?: parameters["rowFilter.profiles.firstName"];
+          lastName?: parameters["rowFilter.profiles.lastName"];
+          phoneNumber?: parameters["rowFilter.profiles.phoneNumber"];
         };
         header: {
           /** Preference */
@@ -95,6 +113,15 @@ export interface paths {
           username?: parameters["rowFilter.profiles.username"];
           avatar_url?: parameters["rowFilter.profiles.avatar_url"];
           website?: parameters["rowFilter.profiles.website"];
+          bio?: parameters["rowFilter.profiles.bio"];
+          tiktok?: parameters["rowFilter.profiles.tiktok"];
+          instagram?: parameters["rowFilter.profiles.instagram"];
+          twitter?: parameters["rowFilter.profiles.twitter"];
+          education?: parameters["rowFilter.profiles.education"];
+          location?: parameters["rowFilter.profiles.location"];
+          firstName?: parameters["rowFilter.profiles.firstName"];
+          lastName?: parameters["rowFilter.profiles.lastName"];
+          phoneNumber?: parameters["rowFilter.profiles.phoneNumber"];
         };
         body: {
           /** profiles */
@@ -124,6 +151,15 @@ export interface definitions {
     username?: string;
     avatar_url?: string;
     website?: string;
+    bio?: string;
+    tiktok?: string;
+    instagram?: string;
+    twitter?: string;
+    education?: string;
+    location?: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber?: string;
   };
 }
 
@@ -155,6 +191,15 @@ export interface parameters {
   "rowFilter.profiles.username": string;
   "rowFilter.profiles.avatar_url": string;
   "rowFilter.profiles.website": string;
+  "rowFilter.profiles.bio": string;
+  "rowFilter.profiles.tiktok": string;
+  "rowFilter.profiles.instagram": string;
+  "rowFilter.profiles.twitter": string;
+  "rowFilter.profiles.education": string;
+  "rowFilter.profiles.location": string;
+  "rowFilter.profiles.firstName": string;
+  "rowFilter.profiles.lastName": string;
+  "rowFilter.profiles.phoneNumber": string;
 }
 
 export interface operations {}

@@ -1,14 +1,28 @@
+/* eslint-disable @next/next/no-img-element */
 import { Dialog, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import Cart from 'components/Cart';
+import Auth from 'components/login';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
 import React, { Fragment, ReactElement, useState } from 'react';
 import { useAppSelector } from 'redux/store';
+import { supabase } from 'utils/supabaseClient';
 
-export default function Layout({ children }): ReactElement {
+export type LayoutProps = {
+  children: JSX.Element | JSX.Element[];
+  authRequired?: boolean;
+};
+export default function Layout({
+  children,
+  authRequired,
+}: LayoutProps): ReactElement {
   const [open, setOpen] = useState(false);
   const session = useAppSelector((state) => state.auth.session);
+  const profile = useAppSelector((state) => state.user.profile);
+
+  if (authRequired && !session) return <Auth />;
+
   return (
     <div style={{ backgroundColor: '#f7f5f0' }}>
       <NextSeo
@@ -120,19 +134,38 @@ export default function Layout({ children }): ReactElement {
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-gray-700 hover:text-gray-800"
-                  >
-                    Sign in
-                  </a>
+                  {session && profile ? (
+                    <a
+                      href="#"
+                      className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                    >
+                      {profile.firstName} {profile.lastName}
+                    </a>
+                  ) : (
+                    <a
+                      href="#"
+                      className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                    >
+                      Sign in
+                    </a>
+                  )}
+
                   <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-gray-700 hover:text-gray-800"
-                  >
-                    Create account
-                  </a>
+                  {session && profile ? (
+                    <a
+                      onClick={() => supabase.auth.signOut()}
+                      className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                    >
+                      sign out
+                    </a>
+                  ) : (
+                    <a
+                      href="#"
+                      className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                    >
+                      Create account
+                    </a>
+                  )}
                 </div>
 
                 {/* Cart */}

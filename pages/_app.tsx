@@ -1,20 +1,23 @@
-import axios from 'axios';
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   ApolloClient,
   ApolloProvider,
   createHttpLink,
   InMemoryCache,
 } from '@apollo/client';
+import axios from 'axios';
 import fetch from 'isomorphic-fetch';
+import { NextComponentType, NextPageContext } from 'next';
 import { AppProps } from 'next/app';
 import React, { ReactElement, useEffect } from 'react';
 import { Provider, useDispatch } from 'react-redux';
-import store from 'redux/store';
-import { SWRConfig } from 'swr';
-import '../styles/index.css';
 import { setSession } from 'redux/authSlice';
+import store, { useAppSelector } from 'redux/store';
+import { setProfile } from 'redux/userSlice';
+import { SWRConfig } from 'swr';
+import { definitions } from 'types/supabase';
 import { supabase } from 'utils/supabaseClient';
-import { NextComponentType, NextPageContext } from 'next';
+import '../styles/index.css';
 
 const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
@@ -43,7 +46,34 @@ function AppWrapper({
   Component: NextComponentType<NextPageContext, any, {}>;
   pageProps: any;
 }): ReactElement {
+  const session = useAppSelector((state) => state.auth.session);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    getProfile();
+  }, [session]);
+
+  async function getProfile() {
+    try {
+      const user = supabase.auth.user();
+
+      let { data, error, status } = await supabase
+        .from<definitions['profiles']>('profiles')
+        .select(`*`)
+        .eq('id', user.id)
+        .single();
+
+      if (error && status !== 406) {
+        throw error;
+      }
+
+      if (data) {
+        dispatch(setProfile(data));
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 
   useEffect(() => {
     dispatch(setSession(supabase.auth.session()));
