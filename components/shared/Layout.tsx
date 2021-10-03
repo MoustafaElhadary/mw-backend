@@ -154,7 +154,7 @@ export default function Layout({
                   {session && profile ? (
                     <a
                       onClick={() => supabase.auth.signOut()}
-                      className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                      className="text-sm font-medium text-gray-700 hover:text-gray-800 hover:cursor-pointer"
                     >
                       sign out
                     </a>

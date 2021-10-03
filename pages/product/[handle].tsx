@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { Dialog, RadioGroup, Transition } from '@headlessui/react';
 import { CurrencyDollarIcon, GlobeIcon, XIcon } from '@heroicons/react/outline';
 import { StarIcon } from '@heroicons/react/solid';
@@ -11,12 +11,13 @@ import { Fragment, useEffect, useMemo, useState } from 'react';
 import {
   GetProduct,
   GetProduct_productByHandle_variants_edges_node,
-  GetProduct_productByHandle_variants_edges_node_selectedOptions
+  GetProduct_productByHandle_variants_edges_node_selectedOptions,
 } from 'types/generated/GetProduct';
 import { GetProducts } from 'types/generated/GetProducts';
 import { Colors, Rings } from 'utils/Colors';
 import { classNames } from 'utils/helpers';
 import { PRODUCT, PRODUCTS } from 'utils/queries';
+import { checkoutCreateMutation } from 'utils/shopify/mutations';
 
 const policies = [
   {
@@ -58,22 +59,6 @@ const sizeGuide = [
   { size: '2XL', chest: '47 ¼', waist: '39 ⅜', hips: '49 ⅝' },
   { size: '3XL', chest: '50 ⅜', waist: '42 ½', hips: '52 ¾' },
 ];
-const testProduct = {
-  id: 1,
-  name: 'Machined Pen',
-  color: 'Black',
-  price: '$35',
-  href: '#',
-  imageSrc:
-    'https://tailwindui.com/img/ecommerce-images/home-page-02-product-01.jpg',
-  imageAlt:
-    'Black machined steel pen with hexagonal grip and small white logo at top.',
-  availableColors: [
-    { name: 'Black', colorBg: '#111827' },
-    { name: 'Brass', colorBg: '#FDE68A' },
-    { name: 'Chrome', colorBg: '#E5E7EB' },
-  ],
-};
 
 export default function Product() {
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
@@ -81,6 +66,36 @@ export default function Product() {
   const router = useRouter();
 
   const { handle } = router.query;
+
+  const [
+    createCheckout,
+    { data: checkoutData, loading: checkoutLoading, error: checkoutError },
+  ] = useMutation<CheckoutCreateMutation, CheckoutCreateMutationVariables>(
+    checkoutCreateMutation,
+    {
+      variables: {
+        input: {
+          lineItems: [
+            {
+              quantity: 3,
+              variantId:
+                'Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zOTQ2MTMwNzU0Nzg4OQ==',
+            },
+          ],
+          customAttributes: [
+            {
+              key: 'user_id',
+              value: '1234',
+            },
+          ],
+        },
+      },
+    }
+  );
+
+  useEffect(() => {
+    console.log({ checkoutData });
+  }, [checkoutData]);
 
   const { loading, error, data } = useQuery<GetProduct>(PRODUCT, {
     variables: { handle },
@@ -166,7 +181,6 @@ export default function Product() {
       })
     );
   }, [selectedColor]);
-
 
   const recommendedProducts = dataProducts?.products?.edges.filter(
     ({ node: rp }) => rp.id !== product?.id
@@ -360,6 +374,12 @@ export default function Product() {
                     option === null ||
                     !option?.availableForSale
                   }
+                  onClick={async (e) => {
+                    e.preventDefault();
+
+                    const { data: DATA } = await createCheckout();
+                    console.log('clicked', { DATA });
+                  }}
                 >
                   Add to cart
                 </button>

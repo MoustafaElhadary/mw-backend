@@ -96,7 +96,9 @@ export default function Cart() {
                       </div>
 
                       <div className="mt-8">
+                        {/* <p className="px-auto my-auto">— Your cart is empty —</p> */}
                         <div className="flow-root">
+                          
                           <ul
                             role="list"
                             className="-my-6 divide-y divide-gray-200"
