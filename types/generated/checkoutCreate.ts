@@ -3,7 +3,6 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { CheckoutCreateInput, CheckoutErrorCode, CurrencyCode } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: checkoutCreate

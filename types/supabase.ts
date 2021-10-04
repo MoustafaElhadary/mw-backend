@@ -339,7 +339,7 @@ export interface paths {
           view_count?: parameters["rowFilter.qrs.view_count"];
           id?: parameters["rowFilter.qrs.id"];
           order_id?: parameters["rowFilter.qrs.order_id"];
-          variant_id?: parameters["rowFilter.qrs.variant_id"];
+          handle?: parameters["rowFilter.qrs.handle"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -395,7 +395,7 @@ export interface paths {
           view_count?: parameters["rowFilter.qrs.view_count"];
           id?: parameters["rowFilter.qrs.id"];
           order_id?: parameters["rowFilter.qrs.order_id"];
-          variant_id?: parameters["rowFilter.qrs.variant_id"];
+          handle?: parameters["rowFilter.qrs.handle"];
         };
         header: {
           /** Preference */
@@ -415,7 +415,7 @@ export interface paths {
           view_count?: parameters["rowFilter.qrs.view_count"];
           id?: parameters["rowFilter.qrs.id"];
           order_id?: parameters["rowFilter.qrs.order_id"];
-          variant_id?: parameters["rowFilter.qrs.variant_id"];
+          handle?: parameters["rowFilter.qrs.handle"];
         };
         body: {
           /** qrs */
@@ -493,7 +493,7 @@ export interface definitions {
      * This is a Foreign Key to `orders.id`.<fk table='orders' column='id'/>
      */
     order_id?: string;
-    variant_id?: string;
+    handle?: string;
   };
 }
 
@@ -553,7 +553,7 @@ export interface parameters {
   "rowFilter.qrs.view_count": string;
   "rowFilter.qrs.id": string;
   "rowFilter.qrs.order_id": string;
-  "rowFilter.qrs.variant_id": string;
+  "rowFilter.qrs.handle": string;
 }
 
 export interface operations {}

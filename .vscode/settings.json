@@ -14,10 +14,12 @@
         "headlessui",
         "heroicons",
         "instantsearch",
+        "merch",
         "nextjs",
         "noreply",
         "onclickoutside",
         "openapi",
+        "powertrip",
         "printful",
         "reduxjs",
         "semibold",
@@ -25,6 +27,7 @@
         "tailwindcss",
         "tailwindui",
         "technote",
+        "tiktok",
         "upsert",
         "videography"
     ]

@@ -58,4 +58,4 @@ Scan your friends clothes and see where they stack
 - [ ] Counter for unique visits ( check location by ip address)
 - [x] edit personal page
 - [x] product page
-- [ ] scanned page
+- [x] scanned page

@@ -1,4 +1,6 @@
-const getProductQuery = /* GraphQL */ `
+import { gql } from '@apollo/client';
+
+const getProductQuery = /* GraphQL */ gql`
   query getProductBySlug($slug: String!) {
     productByHandle(handle: $slug) {
       id

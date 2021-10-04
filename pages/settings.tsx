@@ -4,7 +4,7 @@ import { ReactElement, useEffect, useState } from 'react';
 import { useAppSelector } from 'redux/store';
 import { supabase } from 'utils/supabaseClient';
 
-export default function Settings():ReactElement {
+export default function Settings(): ReactElement {
   const profile = useAppSelector((state) => state.user.profile);
   const [avatar_url, setAvatarUrl] = useState(profile?.avatar_url);
 
@@ -17,6 +17,7 @@ export default function Settings():ReactElement {
       const user = supabase.auth.user();
 
       const updates = {
+        ...profile,
         id: user?.id,
         username: profile?.username,
         website: profile?.website,
@@ -31,7 +32,7 @@ export default function Settings():ReactElement {
       if (error) {
         throw error;
       }
-    } catch (error:any) {
+    } catch (error: any) {
       alert(error.message);
     }
   }
