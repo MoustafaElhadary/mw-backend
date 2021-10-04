@@ -3,7 +3,9 @@ import OtherApparel from 'components/profile/OtherApparel';
 import Layout from 'components/shared/Layout';
 import Link from 'next/link';
 // import { useRouter } from 'next/router';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
+import { definitions } from 'types/supabase';
+import { supabase } from 'utils/supabaseClient';
 
 export default function ProfilePage(): ReactElement {
   // const router = useRouter();
@@ -38,6 +40,61 @@ export default function ProfilePage(): ReactElement {
     name: 'King Tut',
     imageUrl: '/1-front.png',
   };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  async function getProfile() {
+    try {
+      const user = supabase.auth.user();
+      const link = '34692ac1-f55a-457b-89f0-d473acab30ca';
+
+      let { data, error, status } = await supabase
+        .from<
+          definitions['qrs'] & {
+            profile: definitions['profiles'];
+          }
+        >('qrs')
+        .select(
+          `
+          *,
+          profile: profiles( 
+            *
+          )
+        `
+        )
+        .eq('id', link)
+        .single();
+
+      let {
+        data: otherProductsData,
+        error: otherProductsError,
+        status: otherProductsStatus,
+      } = await supabase
+        .from<definitions['qrs']>('qrs')
+        .select(`*`)
+        .eq('profile_id', data.profile_id);
+
+      console.log({
+        data,
+        error,
+        status,
+        otherProductsData,
+        otherProductsError,
+        otherProductsStatus,
+      });
+      if (error && status !== 406) {
+        throw error;
+      }
+
+      if (data) {
+        // dispatch(setProfile(data));
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  }
 
   return (
     <Layout>

@@ -12,6 +12,96 @@ export interface paths {
       };
     };
   };
+  "/orders": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.orders.id"];
+          created_at?: parameters["rowFilter.orders.created_at"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["orders"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** orders */
+          orders?: definitions["orders"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.orders.id"];
+          created_at?: parameters["rowFilter.orders.created_at"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.orders.id"];
+          created_at?: parameters["rowFilter.orders.created_at"];
+        };
+        body: {
+          /** orders */
+          orders?: definitions["orders"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
   "/profiles": {
     get: {
       parameters: {
@@ -138,9 +228,113 @@ export interface paths {
       };
     };
   };
+  "/qrs": {
+    get: {
+      parameters: {
+        query: {
+          created_at?: parameters["rowFilter.qrs.created_at"];
+          profile_id?: parameters["rowFilter.qrs.profile_id"];
+          view_count?: parameters["rowFilter.qrs.view_count"];
+          id?: parameters["rowFilter.qrs.id"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["qrs"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** qrs */
+          qrs?: definitions["qrs"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          created_at?: parameters["rowFilter.qrs.created_at"];
+          profile_id?: parameters["rowFilter.qrs.profile_id"];
+          view_count?: parameters["rowFilter.qrs.view_count"];
+          id?: parameters["rowFilter.qrs.id"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          created_at?: parameters["rowFilter.qrs.created_at"];
+          profile_id?: parameters["rowFilter.qrs.profile_id"];
+          view_count?: parameters["rowFilter.qrs.view_count"];
+          id?: parameters["rowFilter.qrs.id"];
+        };
+        body: {
+          /** qrs */
+          qrs?: definitions["qrs"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
 }
 
 export interface definitions {
+  orders: {
+    /**
+     * Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: string;
+    created_at?: string;
+  };
   profiles: {
     /**
      * Note:
@@ -160,6 +354,20 @@ export interface definitions {
     firstName: string;
     lastName: string;
     phoneNumber?: string;
+  };
+  qrs: {
+    created_at?: string;
+    /**
+     * Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     */
+    profile_id: string;
+    view_count?: number;
+    /**
+     * Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: string;
   };
 }
 
@@ -184,6 +392,10 @@ export interface parameters {
   offset: string;
   /** Limiting and Pagination */
   limit: string;
+  /** orders */
+  "body.orders": definitions["orders"];
+  "rowFilter.orders.id": string;
+  "rowFilter.orders.created_at": string;
   /** profiles */
   "body.profiles": definitions["profiles"];
   "rowFilter.profiles.id": string;
@@ -200,6 +412,12 @@ export interface parameters {
   "rowFilter.profiles.firstName": string;
   "rowFilter.profiles.lastName": string;
   "rowFilter.profiles.phoneNumber": string;
+  /** qrs */
+  "body.qrs": definitions["qrs"];
+  "rowFilter.qrs.created_at": string;
+  "rowFilter.qrs.profile_id": string;
+  "rowFilter.qrs.view_count": string;
+  "rowFilter.qrs.id": string;
 }
 
 export interface operations {}
