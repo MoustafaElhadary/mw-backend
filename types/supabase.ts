@@ -18,6 +18,7 @@ export interface paths {
         query: {
           id?: parameters["rowFilter.orders.id"];
           created_at?: parameters["rowFilter.orders.created_at"];
+          order_number?: parameters["rowFilter.orders.order_number"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -70,6 +71,7 @@ export interface paths {
         query: {
           id?: parameters["rowFilter.orders.id"];
           created_at?: parameters["rowFilter.orders.created_at"];
+          order_number?: parameters["rowFilter.orders.order_number"];
         };
         header: {
           /** Preference */
@@ -86,10 +88,110 @@ export interface paths {
         query: {
           id?: parameters["rowFilter.orders.id"];
           created_at?: parameters["rowFilter.orders.created_at"];
+          order_number?: parameters["rowFilter.orders.order_number"];
         };
         body: {
           /** orders */
           orders?: definitions["orders"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
+  "/products": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.products.id"];
+          created_at?: parameters["rowFilter.products.created_at"];
+          img_src?: parameters["rowFilter.products.img_src"];
+          title?: parameters["rowFilter.products.title"];
+          handle?: parameters["rowFilter.products.handle"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["products"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** products */
+          products?: definitions["products"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.products.id"];
+          created_at?: parameters["rowFilter.products.created_at"];
+          img_src?: parameters["rowFilter.products.img_src"];
+          title?: parameters["rowFilter.products.title"];
+          handle?: parameters["rowFilter.products.handle"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.products.id"];
+          created_at?: parameters["rowFilter.products.created_at"];
+          img_src?: parameters["rowFilter.products.img_src"];
+          title?: parameters["rowFilter.products.title"];
+          handle?: parameters["rowFilter.products.handle"];
+        };
+        body: {
+          /** products */
+          products?: definitions["products"];
         };
         header: {
           /** Preference */
@@ -236,6 +338,8 @@ export interface paths {
           profile_id?: parameters["rowFilter.qrs.profile_id"];
           view_count?: parameters["rowFilter.qrs.view_count"];
           id?: parameters["rowFilter.qrs.id"];
+          order_id?: parameters["rowFilter.qrs.order_id"];
+          variant_id?: parameters["rowFilter.qrs.variant_id"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -290,6 +394,8 @@ export interface paths {
           profile_id?: parameters["rowFilter.qrs.profile_id"];
           view_count?: parameters["rowFilter.qrs.view_count"];
           id?: parameters["rowFilter.qrs.id"];
+          order_id?: parameters["rowFilter.qrs.order_id"];
+          variant_id?: parameters["rowFilter.qrs.variant_id"];
         };
         header: {
           /** Preference */
@@ -308,6 +414,8 @@ export interface paths {
           profile_id?: parameters["rowFilter.qrs.profile_id"];
           view_count?: parameters["rowFilter.qrs.view_count"];
           id?: parameters["rowFilter.qrs.id"];
+          order_id?: parameters["rowFilter.qrs.order_id"];
+          variant_id?: parameters["rowFilter.qrs.variant_id"];
         };
         body: {
           /** qrs */
@@ -334,6 +442,18 @@ export interface definitions {
      */
     id: string;
     created_at?: string;
+    order_number?: string;
+  };
+  products: {
+    /**
+     * Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: number;
+    created_at?: string;
+    img_src?: string;
+    title?: string;
+    handle?: string;
   };
   profiles: {
     /**
@@ -368,6 +488,12 @@ export interface definitions {
      * This is a Primary Key.<pk/>
      */
     id: string;
+    /**
+     * Note:
+     * This is a Foreign Key to `orders.id`.<fk table='orders' column='id'/>
+     */
+    order_id?: string;
+    variant_id?: string;
   };
 }
 
@@ -396,6 +522,14 @@ export interface parameters {
   "body.orders": definitions["orders"];
   "rowFilter.orders.id": string;
   "rowFilter.orders.created_at": string;
+  "rowFilter.orders.order_number": string;
+  /** products */
+  "body.products": definitions["products"];
+  "rowFilter.products.id": string;
+  "rowFilter.products.created_at": string;
+  "rowFilter.products.img_src": string;
+  "rowFilter.products.title": string;
+  "rowFilter.products.handle": string;
   /** profiles */
   "body.profiles": definitions["profiles"];
   "rowFilter.profiles.id": string;
@@ -418,6 +552,8 @@ export interface parameters {
   "rowFilter.qrs.profile_id": string;
   "rowFilter.qrs.view_count": string;
   "rowFilter.qrs.id": string;
+  "rowFilter.qrs.order_id": string;
+  "rowFilter.qrs.variant_id": string;
 }
 
 export interface operations {}
