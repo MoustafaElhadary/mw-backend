@@ -149,16 +149,14 @@ export default function Product() {
   }, [data]);
 
   useEffect(() => {
-    setOption(
-      product?.variants.edges.find(({ node }) => {
-        return (
-          node.selectedOptions
-            .map(({ value }) => value)
-            .includes(selectedSize) &&
-          node.selectedOptions.map(({ value }) => value).includes(selectedColor)
-        );
-      })?.node
-    );
+    const newOption = product?.variants.edges.find(({ node }) => {
+      return (
+        node.selectedOptions.map(({ value }) => value).includes(selectedSize) &&
+        node.selectedOptions.map(({ value }) => value).includes(selectedColor)
+      );
+    })?.node;
+    setOption(newOption);
+    console.log(newOption?.id, newOption?.title);
   }, [product?.variants.edges, selectedColor, selectedSize]);
 
   useEffect(() => {
