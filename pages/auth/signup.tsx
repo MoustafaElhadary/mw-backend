@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import AddressInput from 'components/AddressInput';
 import AgeGroup from 'components/AgeGroup';
 import { Logo } from 'components/icons';
@@ -90,7 +91,7 @@ const Step1 = ({ setStep, inviteCode, setPhone }) => {
         } else {
           setErrors(x.error);
         }
-      } catch (error) {
+      } catch (error: any) {
         setErrors(error.message);
       }
     },
@@ -265,8 +266,10 @@ const Step2 = ({ setStep, phone }) => {
         }),
       });
 
+      console.log({response})
+
       setStep(3);
-    } catch (error) {
+    } catch (error:any) {
       setErrors(errors);
     }
   };
@@ -332,7 +335,7 @@ const Step3 = ({ phone, setStep }) => {
           </label>
         </div>
 
-        {Object.keys(masterList).map((key, index) => {
+        {Object.keys(masterList).map((key) => {
           // key: the name of the object key
           // index: the ordinal position of the key within the object
           return (
@@ -447,6 +450,8 @@ const Step3 = ({ phone, setStep }) => {
                 }),
               });
 
+              console.log({ response });
+
               setStep(4);
             }}
             className="mt-5 w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-black text-sm font-medium text-white cursor-pointer"
@@ -487,9 +492,9 @@ const Step4 = ({ phone, setStep }) => {
     },
   ];
 
-  const [selectedExperiences, setSelectedExperiences] = useState([]);
+  const [selectedExperiences, setSelectedExperiences] = useState<string[]>([]);
 
-  const toggleExperiences = (experience) => {
+  const toggleExperiences = (experience: string) => {
     if (selectedExperiences.includes(experience)) {
       setSelectedExperiences(
         selectedExperiences.filter((x) => x === experience)
@@ -541,7 +546,7 @@ const Step4 = ({ phone, setStep }) => {
                   phone,
                 }),
               });
-
+              console.log({ response });
               setStep(5);
             }}
             className="mt-5 w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-black text-sm font-medium text-white cursor-pointer"

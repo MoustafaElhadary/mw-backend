@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
-  ApolloClient,
-  ApolloProvider,
-  createHttpLink,
-  InMemoryCache,
+    ApolloClient,
+    ApolloProvider,
+    createHttpLink,
+    InMemoryCache
 } from '@apollo/client';
 import axios from 'axios';
 import fetch from 'isomorphic-fetch';
@@ -70,7 +70,7 @@ function AppWrapper({
       if (data) {
         dispatch(setProfile(data));
       }
-    } catch (error) {
+    } catch (error:any) {
       console.log(error.message);
     }
   }

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -69,7 +70,6 @@ const AddressInput = ({ setAddress, title, placeholder }): ReactElement => {
       <ul className="py-1 z-10 shadow border-0">
         {data.map((suggestion) => {
           const {
-            id,
             structured_formatting: { main_text, secondary_text },
           } = suggestion;
           return (

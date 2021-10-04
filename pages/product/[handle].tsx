@@ -67,45 +67,42 @@ export default function Product() {
 
   const { handle } = router.query;
 
-  const [
-    createCheckout,
-    { data: checkoutData, loading: checkoutLoading, error: checkoutError },
-  ] = useMutation<CheckoutCreateMutation, CheckoutCreateMutationVariables>(
-    checkoutCreateMutation,
-    {
-      variables: {
-        input: {
-          lineItems: [
-            {
-              quantity: 3,
-              variantId:
-                'Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zOTQ2MTMwNzU0Nzg4OQ==',
-            },
-          ],
-          customAttributes: [
-            {
-              key: 'user_id',
-              value: '1234',
-            },
-          ],
-        },
+  const options:
+    | GetProduct_productByHandle_variants_edges_node_selectedOptions[]
+    | undefined = [];
+
+  const [createCheckout, { data: checkoutData }] = useMutation<
+    CheckoutCreateMutation,
+    CheckoutCreateMutationVariables
+  >(checkoutCreateMutation, {
+    variables: {
+      input: {
+        lineItems: [
+          {
+            quantity: 3,
+            variantId:
+              'Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zOTQ2MTMwNzU0Nzg4OQ==',
+          },
+        ],
+        customAttributes: [
+          {
+            key: 'user_id',
+            value: '1234',
+          },
+        ],
       },
-    }
-  );
+    },
+  });
 
   useEffect(() => {
     console.log({ checkoutData });
   }, [checkoutData]);
 
-  const { loading, error, data } = useQuery<GetProduct>(PRODUCT, {
+  const { data } = useQuery<GetProduct>(PRODUCT, {
     variables: { handle },
   });
 
-  const {
-    loading: loadingProducts,
-    error: errorProducts,
-    data: dataProducts,
-  } = useQuery<GetProducts>(PRODUCTS);
+  const { data: dataProducts } = useQuery<GetProducts>(PRODUCTS);
 
   const [option, setOption] = useState<
     GetProduct_productByHandle_variants_edges_node | undefined
@@ -118,7 +115,7 @@ export default function Product() {
   //but essentially getting grouping the options to get a list of all the possible options
   const grouped = _.groupBy(
     _.uniq<GetProduct_productByHandle_variants_edges_node_selectedOptions>(
-      [].concat.apply(
+      options.concat.apply(
         [],
         product?.variants.edges.map((p) => p.node.selectedOptions)
       )
@@ -141,13 +138,14 @@ export default function Product() {
         return { value: g.value, available: false };
       })
     );
-
-    setSelectedColor(
-      option?.selectedOptions.find(({ name }) => name === 'Color').value
-    );
-    setSelectedSize(
-      option?.selectedOptions.find(({ name }) => name === 'Size').value
-    );
+    if (option) {
+      setSelectedColor(
+        option?.selectedOptions.find(({ name }) => name === 'Color').value
+      );
+      setSelectedSize(
+        option?.selectedOptions.find(({ name }) => name === 'Size').value
+      );
+    }
   }, [data]);
 
   useEffect(() => {

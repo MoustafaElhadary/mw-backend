@@ -1,17 +1,22 @@
+/* eslint-disable @next/next/no-img-element */
 import { useQuery } from '@apollo/client';
 import Layout from 'components/shared/Layout';
 import _ from 'lodash';
 import Image from 'next/image';
 import Link from 'next/link';
 import { GetProduct_productByHandle_variants_edges_node_selectedOptions } from 'types/generated/GetProduct';
-import { GetProducts } from 'types/generated/GetProducts';
+import {
+  GetProducts,
+  GetProducts_products_edges_node_variants_edges_node_selectedOptions,
+} from 'types/generated/GetProducts';
 import { Colors } from 'utils/Colors';
 import { classNames } from 'utils/helpers';
 import { PRODUCTS } from 'utils/queries';
 
 export default function HomePage() {
-  const { loading, error, data } = useQuery<GetProducts>(PRODUCTS);
-
+  const { data } = useQuery<GetProducts>(PRODUCTS);
+  const options: GetProducts_products_edges_node_variants_edges_node_selectedOptions[] =
+    [];
   return (
     <Layout>
       <main>
@@ -140,7 +145,7 @@ export default function HomePage() {
                   >
                     <Image
                       src={product.images.edges[0].node.transformedSrc}
-                      alt={product.images.edges[0].node.altText}
+                      alt={product.images.edges[0].node.altText!}
                       layout="fill" // required
                       objectFit="cover" // change to suit your needs
                       className="h-full rounded-2xl"
@@ -163,7 +168,7 @@ export default function HomePage() {
                     className="mt-auto pt-2 flex items-center space-x-3"
                   >
                     {_.uniq<GetProduct_productByHandle_variants_edges_node_selectedOptions>(
-                      [].concat.apply(
+                      options.concat.apply(
                         [],
                         product.variants.edges.map(({ node }) =>
                           node.selectedOptions.filter((s) => s.name === 'Color')

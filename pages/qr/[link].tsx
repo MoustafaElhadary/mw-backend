@@ -2,24 +2,24 @@
 import OtherApparel from 'components/profile/OtherApparel';
 import Layout from 'components/shared/Layout';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import React, { ReactElement } from 'react';
 
 export default function ProfilePage(): ReactElement {
-  const router = useRouter();
-  const { username } = router.query;
+  // const router = useRouter();
+  // const { username } = router.query;
   // const { data, error } = useSWR(`/api/profile/${username}`);
 
   // if (error) return <div>failed to load</div>;
   // if (!data) return <div>loading...</div>;
 
-  const masterList = [
-    '🎨 painting',
-    '📸 photography',
-    '🎥 drone videos',
-    '🎙 podcasts',
-    '📙 reading',
-  ];
+  // const masterList = [
+  //   '🎨 painting',
+  //   '📸 photography',
+  //   '🎥 drone videos',
+  //   '🎙 podcasts',
+  //   '📙 reading',
+  // ];
   const profile = {
     name: 'Moustafa Elhadary',
     education: 'Penn State',

@@ -1,10 +1,10 @@
 import Avatar from 'components/Avatar';
 import Layout from 'components/shared/Layout';
-import { useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { useAppSelector } from 'redux/store';
 import { supabase } from 'utils/supabaseClient';
 
-export default function Example() {
+export default function Settings():ReactElement {
   const profile = useAppSelector((state) => state.user.profile);
   const [avatar_url, setAvatarUrl] = useState(profile?.avatar_url);
 
@@ -17,7 +17,7 @@ export default function Example() {
       const user = supabase.auth.user();
 
       const updates = {
-        id: user.id,
+        id: user?.id,
         username: profile?.username,
         website: profile?.website,
         avatar_url,
@@ -31,7 +31,7 @@ export default function Example() {
       if (error) {
         throw error;
       }
-    } catch (error) {
+    } catch (error:any) {
       alert(error.message);
     }
   }

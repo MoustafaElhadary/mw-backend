@@ -1,7 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { ReactElement } from 'react';
-import { ArrowSmDownIcon, ArrowSmUpIcon } from '@heroicons/react/solid';
-import { classNames } from 'utils/helpers';
 
 export default function Stats(): ReactElement {
   const stats = [

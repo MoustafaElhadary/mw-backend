@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Dialog, Transition } from '@headlessui/react';
 import { ShoppingBagIcon, XIcon } from '@heroicons/react/outline';
 import { Fragment, useState } from 'react';
