@@ -108,7 +108,7 @@ export default function Layout({
         {/* Top navigation */}
         <nav
           aria-label="Top"
-          className="relative z-20 bg-opacity-90 backdrop-filter backdrop-blur-xl"
+          className="relative z-10 bg-opacity-90 backdrop-filter backdrop-blur-xl"
           style={{ backgroundColor: '#f7f5f0' }}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
