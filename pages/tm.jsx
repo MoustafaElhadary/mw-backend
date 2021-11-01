@@ -11,6 +11,7 @@ import 'slick-carousel/slick/slick-theme.css';
 export default function Example() {
   var settings = {
     dots: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -18,7 +19,7 @@ export default function Example() {
   return (
     <div className="relative py-4 bg-black  h-screen">
       {/* Top piece */}
-      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 pb-4">
         <div className="flex items-center justify-between flex-wrap">
           <div className="w-0 flex-1 flex items-center">
             <p className="ml-3 font-semibold text-lg text-white truncate">
@@ -42,7 +43,7 @@ export default function Example() {
       </div>
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <Slider {...settings}>
-          <div className="bg-gray-800 mx-4 px-4">
+          <div className="bg-gray-800 ">
             <div className="flex align-baseline justify-between flex-wrap relative p-4">
               <div className="blackCircle"></div>
 
@@ -190,6 +191,8 @@ export default function Example() {
             </div>
           </div>
         </Slider>
+
+        <img className="h-full " src="/hold.png" alt="" />
       </div>
     </div>
   );
