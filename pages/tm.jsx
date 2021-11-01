@@ -192,7 +192,7 @@ export default function Example() {
           </div>
         </Slider>
 
-        <img className="h-full " src="/hold.png" alt="" />
+        <img className="object-fill h-48 w-full" src="/hold.png" alt="" />
       </div>
     </div>
   );
