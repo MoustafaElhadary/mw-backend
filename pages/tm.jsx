@@ -17,7 +17,7 @@ export default function Example() {
     slidesToScroll: 1,
   };
   return (
-    <div className="relative py-4 bg-black  h-screen">
+    <div className="relative py-4 bg-black  h-screen overflow-hidden">
       {/* Top piece */}
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 pb-4">
         <div className="flex items-center justify-between flex-wrap">
@@ -192,7 +192,7 @@ export default function Example() {
           </div>
         </Slider>
 
-        <img className="object-fill h-48 w-full" src="/hold.png" alt="" />
+        <img className="object-fill h-36 w-full" src="/hold.png" alt="" />
       </div>
     </div>
   );
