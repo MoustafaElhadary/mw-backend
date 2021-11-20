@@ -1,20 +1,19 @@
 {
     "cSpell.words": [
-        "Elhadary",
-        "FIFA",
-        "Karting",
-        "Moustafa",
-        "Shawarma",
-        "Waitlist",
         "algoliasearch",
         "codegen",
+        "Elhadary",
+        "FIFA",
+        "firestore",
         "flowtype",
         "formik",
         "gotrue",
         "headlessui",
         "heroicons",
         "instantsearch",
+        "Karting",
         "merch",
+        "Moustafa",
         "nextjs",
         "noreply",
         "onclickoutside",
@@ -23,12 +22,14 @@
         "printful",
         "reduxjs",
         "semibold",
+        "Shawarma",
         "supabase",
         "tailwindcss",
         "tailwindui",
         "technote",
         "tiktok",
         "upsert",
-        "videography"
+        "videography",
+        "Waitlist"
     ]
 }
