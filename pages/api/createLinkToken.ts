@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { CountryCode, Products } from 'plaid';
 import plaidClient from 'utils/plaid';
 
-const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
+const Endpoint = async (_: NextApiRequest, res: NextApiResponse) => {
   // const {  fundingType } = req.body;
 
   const products = [
