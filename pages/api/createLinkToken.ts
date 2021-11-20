@@ -1,34 +1,51 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { CountryCode, Products } from 'plaid';
+import {
+  AccountSubtype, CountryCode, LinkTokenCreateRequest, Products
+} from 'plaid';
 import plaidClient from 'utils/plaid';
 
-const Endpoint = async (_: NextApiRequest, res: NextApiResponse) => {
-  // const {  fundingType } = req.body;
+const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    console.log('Starting token creation');
+    const { fundingType } = req.body;
 
-  const products = [
-    Products.Transactions,
-    Products.Auth,
-    Products.Liabilities
-  ]
+    console.log('fundingType');
+    console.log({ fundingType });
 
-  // if(fundingType === 'loan') {
-  //   products.push();
-  // }
-    
+    let config: LinkTokenCreateRequest = {
+      user: {
+        client_user_id: 'MW-Backend',
+      },
+      client_name: 'MochaWallet',
+      products:[Products.Transactions, Products.Auth],
+      country_codes: [CountryCode.Us],
+      language: 'en',
+    };
 
-  const data = await plaidClient.linkTokenCreate({
-    user: {
-      client_user_id: 'MW-Backend',
-    },
-    client_name: 'MochaWallet',
-    products,
-    country_codes: [CountryCode.Us],
-    language: 'en',
-  });
+    if (fundingType === 'loan') {
+      config = {
+        ...config,
+        products: [Products.Auth, Products.Liabilities],
+        account_filters: {
+          loan: {
+            account_subtypes: [
+              AccountSubtype.Student,
+              AccountSubtype.Mortgage,
+            ],
+          },
+        },
+      };
+    }
 
-  console.log({ data });
-  res.status(200).json({ linkToken: data.data.link_token });
+    const data = await plaidClient.linkTokenCreate(config);
+
+    console.log({ data });
+    res.status(200).json({ linkToken: data.data.link_token });
+  } catch (error) {
+    console.log({ error });
+    res.status(500).json({ error });
+  }
 };
 
 export default Endpoint;
