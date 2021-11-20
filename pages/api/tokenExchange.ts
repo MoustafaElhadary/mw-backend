@@ -80,12 +80,6 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
       };
     }
 
-    if (lastStep) {
-      objToSave = {
-        ...objToSave,
-        registered: true,
-      };
-    }
     firestore
       .collection('users')
       .doc(data.uid)
@@ -93,6 +87,12 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
       .doc(plaidData.data.access_token)
       .set(objToSave);
 
+    if (lastStep) {
+      firestore
+      .collection('users')
+      .doc(data.uid)
+      .update({registered: true})
+    }
     console.log({ data });
 
     res.status(200).json({ x: 2 });
