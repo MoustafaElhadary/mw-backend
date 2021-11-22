@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { firestore, auth } from 'utils/firebase';
-import { LiabilitiesObject, Transaction } from 'plaid';
+import { Transaction } from 'plaid';
+import { auth, firestore } from 'utils/firebase';
 
 const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
   // const { uid } = req.body;
