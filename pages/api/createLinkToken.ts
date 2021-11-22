@@ -1,7 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {
-  AccountSubtype, CountryCode, LinkTokenCreateRequest, Products
+  AccountSubtype,
+  CountryCode,
+  LinkTokenCreateRequest,
+  Products,
 } from 'plaid';
 import plaidClient from 'utils/plaid';
 
@@ -10,17 +13,15 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log('Starting token creation');
     const { fundingType } = req.body;
 
-    console.log('fundingType');
-    console.log({ fundingType });
-
     let config: LinkTokenCreateRequest = {
       user: {
         client_user_id: 'MW-Backend',
       },
       client_name: 'MochaWallet',
-      products:[Products.Transactions, Products.Auth],
+      products: [Products.Transactions, Products.Auth],
       country_codes: [CountryCode.Us],
       language: 'en',
+      webhook: `${process.env.BASE_URL}/api/webhooks/plaid`,
     };
 
     if (fundingType === 'loan') {
@@ -29,10 +30,7 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
         products: [Products.Auth, Products.Liabilities],
         account_filters: {
           loan: {
-            account_subtypes: [
-              AccountSubtype.Student,
-              AccountSubtype.Mortgage,
-            ],
+            account_subtypes: [AccountSubtype.Student, AccountSubtype.Mortgage],
           },
         },
       };

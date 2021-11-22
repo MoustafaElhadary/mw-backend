@@ -1,7 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { firestore, auth } from 'utils/firebase';
-import { LiabilitiesObject, Transaction } from 'plaid';
 
 const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
   // const { uid } = req.body;
@@ -19,21 +18,29 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
     let user = profile.data();
 
     const items = user.items
-      .filter((loan) => loan.type === 'funding')
+      .filter((loan) => loan.type === 'loan')
       .map((x) => x.item_id);
 
-    let transactions: Transaction[] = [];
+    let mortgages = [];
+    let studentLoans = [];
 
     for (let item of items) {
       const itemData = await firestore.collection('items').doc(item).get();
-      const itemTransactions = itemData.data().transactions as Transaction[];
-      if (itemTransactions) {
-        transactions.push(...itemTransactions);
+      const liabilities = itemData.data().liabilities;
+      if (liabilities) {
+        const { mortgage, student } = liabilities;
+        if (mortgage) {
+          mortgages.push(...mortgage);
+        }
+        if (student) {
+          studentLoans.push(...student);
+        }
       }
     }
 
     res.status(200).json({
-      transactions,
+      mortgages,
+      studentLoans,
     });
   } catch (error) {
     res.status(500).json({ error });

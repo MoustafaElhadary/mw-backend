@@ -1,39 +1,42 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { firestore, auth } from 'utils/firebase';
-import { LiabilitiesObject, Transaction } from 'plaid';
 
 const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
-  // const { uid } = req.body;
-  const { mwAccessToken } = req.body;
+  const {  mwAccessToken } = req.body;
 
-  console.log({ mwAccessToken });
+  console.log({  mwAccessToken });
   if (!mwAccessToken) {
     return res.status(401).json({ error: 'Please include id token' });
   }
 
+  let data = {};
   try {
     const { uid } = await auth.verifyIdToken(mwAccessToken);
     const profile = await firestore.collection('users').doc(uid).get();
 
-    let user = profile.data();
+    data = profile.data();
 
-    const items = user.items
-      .filter((loan) => loan.type === 'funding')
-      .map((x) => x.item_id);
+    const subCollections = await firestore
+      .collection('users')
+      .doc(uid)
+      .listCollections();
 
-    let transactions: Transaction[] = [];
+    for (const subCollection of subCollections) {
+      const sb = await subCollection.get();
 
-    for (let item of items) {
-      const itemData = await firestore.collection('items').doc(item).get();
-      const itemTransactions = itemData.data().transactions as Transaction[];
-      if (itemTransactions) {
-        transactions.push(...itemTransactions);
+      let arr = [];
+      for (const doc of sb.docs) {
+        arr = [...arr, { [doc.id]: doc.data() }];
       }
+      data = {
+        ...data,
+        [subCollection.id]: [...arr],
+      };
     }
 
     res.status(200).json({
-      transactions,
+      data,
     });
   } catch (error) {
     res.status(500).json({ error });
