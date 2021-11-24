@@ -27,7 +27,7 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
     if (fundingType === 'loan') {
       config = {
         ...config,
-        products: [Products.Auth, Products.Liabilities],
+        products: [Products.Liabilities],
         account_filters: {
           loan: {
             account_subtypes: [AccountSubtype.Student, AccountSubtype.Mortgage],

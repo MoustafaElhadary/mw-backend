@@ -56,3 +56,7 @@ export function classNames(...classes: string[]): string {
 export function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
 }
+
+export function roundup(value: number, minimum: number = 0.45): number {
+  return Math.ceil(value) - value >= minimum ? Math.ceil(value) - value : minimum;
+}
