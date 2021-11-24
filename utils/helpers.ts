@@ -52,3 +52,7 @@ export function numberWithCommas(x: string): string {
 export function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(' ');
 }
+
+export function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
