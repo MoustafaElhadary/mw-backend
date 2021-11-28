@@ -1,11 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { firestore, auth } from 'utils/firebase';
+import { auth, firestore } from 'utils/firebase';
+import { groupBy } from 'utils/helpers';
 
 const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
-  const {  mwAccessToken } = req.body;
+  const { mwAccessToken } = req.body;
 
-  console.log({  mwAccessToken });
+  console.log({ mwAccessToken });
   if (!mwAccessToken) {
     return res.status(401).json({ error: 'Please include id token' });
   }
@@ -15,30 +16,42 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
     const { uid } = await auth.verifyIdToken(mwAccessToken);
     const profile = await firestore.collection('users').doc(uid).get();
 
-    data = profile.data();
+    const data = profile.data();
 
-    const subCollections = await firestore
-      .collection('users')
-      .doc(uid)
-      .listCollections();
+    let accounts = [];
+    let liabilities = [];
 
-    for (const subCollection of subCollections) {
-      const sb = await subCollection.get();
+    for (const item of data.items) {
+      const { item_id } = item;
+      const { accounts: itemAccounts, liabilities: itemLiabilities,institution } = (
+        await firestore.collection('items').doc(item_id).get()
+      ).data();
 
-      let arr = [];
-      for (const doc of sb.docs) {
-        arr = [...arr, { [doc.id]: doc.data() }];
+      if (itemAccounts) {
+        accounts.push(
+          ...itemAccounts.map((account) => ({
+            ...account,
+            institution,
+            item_id
+          }))
+        );
       }
-      data = {
-        ...data,
-        [subCollection.id]: [...arr],
-      };
+
+      if (itemLiabilities) {
+        liabilities.push(itemLiabilities);
+      }
     }
 
-    res.status(200).json({
-      data,
-    });
+
+    const response = {
+      profile:data,
+      accounts,
+      liabilities,
+    };
+
+    res.status(200).json(response);
   } catch (error) {
+    console.log({ error });
     res.status(500).json({ error });
   }
 };

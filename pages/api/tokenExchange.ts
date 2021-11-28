@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { LiabilitiesObject, Transaction } from 'plaid';
+import { CountryCode, LiabilitiesObject, Transaction } from 'plaid';
 import { auth, firestore } from 'utils/firebase';
 import plaidClient from 'utils/plaid';
 
@@ -30,12 +30,22 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const item_id = plaidData.data.item_id;
 
-    let objToSave: fundsObject = {
-      item_id,
+    const accountsData = await plaidClient.accountsGet({
       access_token: plaidData.data.access_token,
-      user_id: uid,
-      type: fundingType,
-    };
+    });
+    const accounts = accountsData.data.accounts;
+
+    const item = accountsData.data.item;
+
+    const institutionData = await plaidClient.institutionsGetById({
+      institution_id: item.institution_id,
+      country_codes: [CountryCode.Us],
+      options:{
+        include_optional_metadata: true,
+        include_auth_metadata: true,
+        include_payment_initiation_metadata: true,
+      }
+    });
 
     let liabilities = null;
     if (fundingType === 'loan') {
@@ -46,10 +56,23 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
       liabilities = liabilitiesData.data.liabilities;
     }
 
+    let objToSave: fundsObject = {
+      item_id,
+      access_token: plaidData.data.access_token,
+      user_id: uid,
+      type: fundingType,
+    };
+
     firestore
       .collection('items')
       .doc(item_id)
-      .set({ ...objToSave, liabilities });
+      .set({
+        ...objToSave,
+        liabilities,
+        accounts,
+        institution: institutionData.data.institution,
+        ...item,
+      });
 
     const user = await firestore.collection('users').doc(uid).get();
 

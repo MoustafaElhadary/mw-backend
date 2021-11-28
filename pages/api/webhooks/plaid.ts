@@ -1,11 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next';
-import moment from 'moment';
-import { firestore } from 'utils/firebase';
-import plaidClient from 'utils/plaid';
 import * as admin from 'firebase-admin';
-import { roundup } from 'utils/helpers';
+import moment from 'moment';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { AccountBase, Transaction } from 'plaid';
+import { firestore } from 'utils/firebase';
+import { roundup } from 'utils/helpers';
+import plaidClient from 'utils/plaid';
 
 const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -28,7 +28,7 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
     // console.log({ data });
     res.status(200).json({});
   } catch (error) {
-    console.log({ error });
+    console.error({ error });
     res.status(500).json({ error });
   }
 };
@@ -92,7 +92,7 @@ const handleTransactionsWebhook = async (req: NextApiRequest) => {
         );
     }
   } catch (error) {
-    console.log({ error });
+    console.error({ error });
   }
 };
 
@@ -136,7 +136,7 @@ const retrieveItemByItemId = async (itemId: string) => {
     return item.data();
   } catch (error) {
     console.log('Error in retrieveItemByItemId');
-    console.log({ error });
+    console.error({ error });
     throw error;
   }
 };
@@ -164,7 +164,7 @@ const retrieveTransactionsInDateRange = async (
     return query.docs.map((doc) => doc.data());
   } catch (error) {
     console.log('Error in retrieveTransactionsInDateRange');
-    console.log({ error });
+    console.error({ error });
     throw error;
   }
 };
@@ -191,14 +191,16 @@ const fetchTransactions = async (
 
   try {
     // get the access token based on the plaid item id
-    const { access_token } = await retrieveItemByItemId(item_id);
+    const item = await retrieveItemByItemId(item_id);
+    const access_token = item.access_token;
 
     let offset = 0;
     let transactionsToFetch = true;
     let resultData: {
       transactions: Transaction[];
       accounts: AccountBase[];
-    } = { transactions: [], accounts: [] };
+      item: any;
+    } = { transactions: [], accounts: [], item: null };
     const batchSize = 100;
     /* eslint-disable no-await-in-loop */
     while (transactionsToFetch) {
@@ -219,6 +221,7 @@ const fetchTransactions = async (
       resultData = {
         transactions: [...resultData.transactions, ...transactions],
         accounts: accounts,
+        item,
       };
 
       if (transactions.length === batchSize) {
@@ -232,7 +235,7 @@ const fetchTransactions = async (
   } catch (error) {
     console.log('Error in fetchTransactions');
     console.error(`Error fetching transactions: ${error.message}`, { error });
-    return { transactions: [], accounts: [] };
+    return { transactions: [], accounts: [], item: null };
   }
 };
 
@@ -254,8 +257,13 @@ const handleTransactionsUpdate = async (
 
   try {
     // Fetch new transactions from plaid api.
-    const { transactions: incomingTransactions, accounts } =
-      await fetchTransactions(item_id, startDate, endDate);
+    const {
+      transactions: incomingTransactions,
+      accounts,
+      item,
+    } = await fetchTransactions(item_id, startDate, endDate);
+
+    const existingAccounts = item.accounts;
 
     // Retrieve existing transactions from our db.
     const existingTransactions = (await retrieveTransactionsInDateRange(
@@ -263,6 +271,14 @@ const handleTransactionsUpdate = async (
       startDate,
       endDate
     )) as Transaction[];
+
+    // Filter out accounts from existing accounts
+    const accountsToSave = existingAccounts
+      ? accounts.filter(
+          (a) =>
+            !existingAccounts.map((ea) => ea.account_id).includes(a.account_id)
+        )
+      : accounts;
 
     // Compare to find new transactions.
     const existingTransactionIds = existingTransactions.reduce(
@@ -295,7 +311,7 @@ const handleTransactionsUpdate = async (
     );
 
     // Update the DB.
-    await createAccounts(item_id, accounts);
+    await createAccounts(item_id, accountsToSave);
     await createTransactions(item_id, transactionsToStore);
     await deleteTransactions(item_id, transactionsToRemove);
   } catch (error) {
@@ -344,7 +360,7 @@ const createTransactions = async (
     const userDoc = await firestore.collection('users').doc(item.user_id).get();
     const user = userDoc.data();
 
-    const transactionsToSave = item.transactions
+    const transactionsToSave: Transaction[] = item.transactions
       ? [...item.transactions, ...transactions]
       : transactions;
 
@@ -356,11 +372,16 @@ const createTransactions = async (
 
     const roundups = user.roundups;
 
-    //TODO: Filter out transactions tha are older than 2 months
-    const transactionsToSaveWithRoundups = transactionsToSave.map(
-      (transaction) => transaction.transaction_id
+    //TODO: Filter out transactions that are 60 days or more
+    const transactionsToSaveWithRoundups = transactionsToSave.filter(
+      (transaction) => {
+        const transactionDate = new Date(transaction.date);
+        const now = new Date();
+        const difference = now.getTime() - transactionDate.getTime();
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        return days < 60;
+      }
     );
-
     // add transaction to upcoming users roundups
     firestore
       .collection('users')
@@ -368,12 +389,17 @@ const createTransactions = async (
       .update({
         roundups: {
           ...roundups,
-          upcoming: [...roundups.upcoming, ...transactionsToSaveWithRoundups],
+          upcoming: [
+            ...roundups.upcoming,
+            ...transactionsToSaveWithRoundups.map(
+              (transaction) => transaction.transaction_id
+            ),
+          ],
         },
       });
 
     // add transaction to past roundups collection
-    for (const transaction of transactions) {
+    for (const transaction of transactionsToSaveWithRoundups) {
       await firestore
         .collection('roundups')
         .doc(transaction.transaction_id)

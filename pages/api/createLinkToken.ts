@@ -4,7 +4,7 @@ import {
   AccountSubtype,
   CountryCode,
   LinkTokenCreateRequest,
-  Products,
+  Products
 } from 'plaid';
 import plaidClient from 'utils/plaid';
 
@@ -30,7 +30,7 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
         products: [Products.Liabilities],
         account_filters: {
           loan: {
-            account_subtypes: [AccountSubtype.Student, AccountSubtype.Mortgage],
+            account_subtypes: [AccountSubtype.Student],
           },
         },
       };

@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getContentById } from 'utils/db';
 import { auth, firestore } from 'utils/firebase';
+import { getNextMonday } from 'utils/helpers';
 
 const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
   const { mwAccessToken } = req.body;
@@ -22,14 +23,52 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
 
     console.log({ length: upcoming.length });
     const previousDocs = (await getContentById(previous, 'roundups')).sort(
-      (a, b) => new Date(b.transaction.date).valueOf() -new Date(a.transaction.date).valueOf()
+      (a, b) =>
+        new Date(b.transaction.date).valueOf() -
+        new Date(a.transaction.date).valueOf()
     );
     const upcomingDocs = (await getContentById(upcoming, 'roundups')).sort(
-        (a, b) => new Date(b.transaction.date).valueOf() -new Date(a.transaction.date).valueOf()
-      );
+      (a, b) =>
+        new Date(b.transaction.date).valueOf() -
+        new Date(a.transaction.date).valueOf()
+    );
 
-    const response = { upcoming: upcomingDocs, previous: previousDocs };
-    console.log(response);
+    const nextPaymentDate = getNextMonday();
+
+    const upcomingDepositTotal = Math.abs(
+      upcomingDocs?.reduce(
+        (acc, curr) => acc + curr.transactionRoundupAmount,
+        0
+      )
+    );
+
+    const allTimeTotal = Math.abs(
+      upcomingDocs?.reduce(
+        (acc, curr) => acc + curr.transactionRoundupAmount,
+        0
+      ) +
+        previousDocs?.reduce(
+          (acc, curr) => acc + curr.transactionRoundupAmount,
+          0
+        )
+    );
+
+    const earliestUpcomingPaymentDate =
+      upcomingDocs?.slice(-1)[0].transaction.date;
+
+    const response = {
+      upcoming: upcomingDocs,
+      previous: previousDocs,
+      nextPaymentDate,
+      upcomingDepositTotal,
+      allTimeTotal,
+      earliestUpcomingPaymentDate,
+    };
+
+    console.log({ nextPaymentDate,
+      upcomingDepositTotal,
+      allTimeTotal,
+      earliestUpcomingPaymentDate,})
 
     res.status(200).json(response);
   } catch (error) {

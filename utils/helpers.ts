@@ -1,4 +1,7 @@
 // import {} from "/"
+
+import moment from 'moment';
+
 // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
 export function makeId(length: number): string {
   let result = '';
@@ -58,5 +61,21 @@ export function onlyUnique(value, index, self) {
 }
 
 export function roundup(value: number, minimum: number = 0.45): number {
-  return Math.ceil(value) - value >= minimum ? Math.ceil(value) - value : minimum;
+  return Math.ceil(value) - value >= minimum
+    ? Math.ceil(value) - value
+    : minimum;
+}
+
+export function getNextMonday() {
+  const today = moment();
+  const day = today.day();
+  const nextMonday = today.add(7 - day, 'days');
+  return nextMonday;
+}
+
+export function groupBy(xs, key) {
+  return xs.reduce(function (rv, x) {
+    (rv[x[key]] = rv[x[key]] || []).push(x);
+    return rv;
+  }, {});
 }
