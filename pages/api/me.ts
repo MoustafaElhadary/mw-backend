@@ -1,7 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { auth, firestore } from 'utils/firebase';
-import { groupBy } from 'utils/helpers';
 
 const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
   const { mwAccessToken } = req.body;
@@ -11,7 +10,6 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(401).json({ error: 'Please include id token' });
   }
 
-  let data = {};
   try {
     const { uid } = await auth.verifyIdToken(mwAccessToken);
     const profile = await firestore.collection('users').doc(uid).get();
