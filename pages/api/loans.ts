@@ -1,11 +1,13 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import moment from 'moment';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {
   AccountBase,
   LiabilitiesObject,
   MortgageLiability,
-  StudentLoan,
+  StudentLoan
 } from 'plaid';
+import { DEFAULT_STUDENT_LOAN_INTERESt_RATE } from 'utils/const';
 import { auth, firestore } from 'utils/firebase';
 import { onlyUnique } from 'utils/helpers';
 import plaidClient from 'utils/plaid';
@@ -69,34 +71,32 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const studentLoanAverageInterestRate =
       studentLoans.reduce((acc, curr) => {
-        const interest_rate_percentage = curr.interest_rate_percentage || 3;
+        const interest_rate_percentage =
+          curr.interest_rate_percentage || DEFAULT_STUDENT_LOAN_INTERESt_RATE;
         const balance = studentLoanAccounts.find(
           (account) => account.account_id === curr.account_id
         ).balances.current;
         return acc + balance * interest_rate_percentage;
       }, 0) / studentLoanBalance;
 
-    const mortgagesIds = mortgages
-      .map((loan) => loan.account_id)
-      .filter(onlyUnique);
+    //Calculate loan term in months
+    //start date: studentLoans[0].origination_date
+    const loanTermInMonths = moment(
+      new Date(
+        studentLoans[0].loan_status.end_date ||
+          studentLoans[0].expected_payoff_date
+      )
+    ).diff(new Date(), 'month', true);
 
-    const mortgagesAccounts = accounts.filter((account) =>
-      mortgagesIds.includes(account.account_id)
-    );
+    const monthlyInterest = studentLoanAverageInterestRate / 100 / 12;
 
-    const mortgagesBalance = mortgagesAccounts.reduce(
-      (acc, curr) => acc + curr.balances.current,
-      0
-    );
+    const monthlyPayment =
+      (monthlyInterest * studentLoanBalance) /
+      (1 - Math.pow(1 + monthlyInterest, -1 * loanTermInMonths));
 
-    const mortgagesAverageInterestRate =
-      mortgages.reduce((acc, curr) => {
-        const interest_rate_percentage = curr.interest_rate.percentage || 3;
-        const balance = mortgagesAccounts.find(
-          (account) => account.account_id === curr.account_id
-        ).balances.current;
-        return acc + balance * interest_rate_percentage;
-      }, 0) / mortgagesBalance;
+
+    const interestPaid = monthlyPayment * monthlyPayment - studentLoanBalance
+
 
     const response = {
       student: {
@@ -104,24 +104,12 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
         averageInterestRate: studentLoanAverageInterestRate,
         balance: studentLoanBalance,
         accounts: studentLoanAccounts,
+        loanTermInMonths,
       },
-      mortgages: {
-        loans: mortgages,
-        averageInterestRate: mortgagesAverageInterestRate,
-        balance: mortgagesBalance,
-        accounts: mortgagesAccounts,
-      },
-      totalOriginalAmount:
-        studentLoans
-          .map((loan) => loan.origination_principal_amount)
-          .reduce((acc, curr) => acc + curr, 0) +
-        mortgages
-          .map((loan) => loan.origination_principal_amount)
-          .reduce((acc, curr) => acc + curr, 0),
-      amountLeft: studentLoanBalance + mortgagesBalance,
-      
-
-      
+      amountLeft: studentLoanBalance,
+      monthlyPayment,
+      monthlyInterest,
+      interestPaid
     };
     console.log(response);
 

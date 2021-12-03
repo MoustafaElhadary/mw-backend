@@ -21,18 +21,21 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
 
     for (const item of data.items) {
       const { item_id } = item;
-      const { accounts: itemAccounts, liabilities: itemLiabilities,institution } = (
-        await firestore.collection('items').doc(item_id).get()
-      ).data();
+      const {
+        accounts: itemAccounts,
+        liabilities: itemLiabilities,
+        institution,
+      } = (await firestore.collection('items').doc(item_id).get()).data();
 
+      const accountsToSave = [
+        ...itemAccounts.map((account) => ({
+          ...account,
+          institution,
+          item_id,
+        })),
+      ];
       if (itemAccounts) {
-        accounts.push(
-          ...itemAccounts.map((account) => ({
-            ...account,
-            institution,
-            item_id
-          }))
-        );
+        accounts.push(...accountsToSave);
       }
 
       if (itemLiabilities) {
@@ -40,9 +43,8 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     }
 
-
     const response = {
-      profile:data,
+      profile: data,
       accounts,
       liabilities,
     };
