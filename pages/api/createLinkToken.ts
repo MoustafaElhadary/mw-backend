@@ -41,7 +41,7 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log({ data });
     res.status(200).json({ linkToken: data.data.link_token });
   } catch (error) {
-    console.log({ error });
+    console.error({ error });
     res.status(500).json({ error });
   }
 };

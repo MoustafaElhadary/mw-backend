@@ -88,7 +88,7 @@ const Endpoint = async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).json({ message: 'Successfully saved' });
   } catch (error) {
-    console.log({ error });
+    console.error({ error });
     return res.status(401).json({ error: error.message });
   }
 };
